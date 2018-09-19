@@ -1,6 +1,3 @@
-// 整个项目初始状态、触发事件以后更改状态函数 存在这里
-
-
 const reducer = (state, action) => {
     switch (action.type) {
         case 'Header':

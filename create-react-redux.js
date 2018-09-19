@@ -1,19 +1,19 @@
 const fs = require('fs');
-const actionstr = fs.readFileSync('./bable/action.crr', 'utf8');
-const actionJsonstr = fs.readFileSync('./bable/actionJson.crr', 'utf8');
-const Bablestr = fs.readFileSync('./bable/Bable.crr', 'utf8');
-const BableProTypesJson = fs.readFileSync('./bable/BableProTypesJson.crr', 'utf8');
-const mapDispatchToPropsstr = fs.readFileSync('./bable/mapDispatchToProps.crr', 'utf8');
-const mapDispatchToPropsJson = fs.readFileSync('./bable/mapDispatchToPropsJson.crr', 'utf8');
-const mapStateToPropsstr = fs.readFileSync('./bable/mapStateToProps.crr', 'utf8');
-const mapStateToPropsJson = fs.readFileSync('./bable/mapStateToPropsJson.crr', 'utf8');
-const stateBable = fs.readFileSync('./bable/stateBable.crr', 'utf8');
-const store = fs.readFileSync('./bable/store.crr', 'utf8');
-const reducer = fs.readFileSync('./bable/reducer.crr', 'utf8');
-const reducerTypeSwitch = fs.readFileSync('./bable/reducerTypeSwitch.crr', 'utf8');
-const reducerFuncCase = fs.readFileSync('./bable/reducerFuncCase.crr', 'utf8');
-const entry = fs.readFileSync('./bable/entry.crr', 'utf8');
-const entryImports = fs.readFileSync('./bable/entryImports.crr', 'utf8');
+const actionstr = fs.readFileSync('./babel/action.crr', 'utf8');
+const actionJsonstr = fs.readFileSync('./babel/actionJson.crr', 'utf8');
+const Bablestr = fs.readFileSync('./babel/Bable.crr', 'utf8');
+const BableProTypesJson = fs.readFileSync('./babel/BableProTypesJson.crr', 'utf8');
+const mapDispatchToPropsstr = fs.readFileSync('./babel/mapDispatchToProps.crr', 'utf8');
+const mapDispatchToPropsJson = fs.readFileSync('./babel/mapDispatchToPropsJson.crr', 'utf8');
+const mapStateToPropsstr = fs.readFileSync('./babel/mapStateToProps.crr', 'utf8');
+const mapStateToPropsJson = fs.readFileSync('./babel/mapStateToPropsJson.crr', 'utf8');
+const stateBable = fs.readFileSync('./babel/stateBable.crr', 'utf8');
+const store = fs.readFileSync('./babel/store.crr', 'utf8');
+const reducer = fs.readFileSync('./babel/reducer.crr', 'utf8');
+const reducerTypeSwitch = fs.readFileSync('./babel/reducerTypeSwitch.crr', 'utf8');
+const reducerFuncCase = fs.readFileSync('./babel/reducerFuncCase.crr', 'utf8');
+const entry = fs.readFileSync('./babel/entry.crr', 'utf8');
+const entryImports = fs.readFileSync('./babel/entryImports.crr', 'utf8');
 const cmd = process.argv.splice(2);
 // 开始创建
 try {

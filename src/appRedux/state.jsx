@@ -1,2 +1,2 @@
-const state = {defaultChild:{ userName: '',currency:'BCH' },phoneNumber:'',childrenList:[],balance:{}};
+const state = {defaultChild:{ userName: ''},phoneNumber:'',childrenList:[],balance:{}};
 export default state;
