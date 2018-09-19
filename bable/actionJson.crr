@@ -1,0 +1,3 @@
+    {{func}}: ({{parameter}}) => {
+        return { type: '{{type}}', func: '{{func}}', {{parameter}}: {{parameter}} };
+    },

@@ -1,0 +1,13 @@
+{
+  "name": "createreduxtool",
+  "version": "1.0.0",
+  "description": "",
+  "main": "create-react-redux.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "createRedux":"node ./create-react-redux.js create",
+    "buildRedux":"node ./create-react-redux.js"
+  },
+  "author": "",
+  "license": "ISC"
+}

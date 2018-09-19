@@ -1,0 +1,8 @@
+import action from './action.jsx';
+
+const mapDispatchToProps=(dispatch)=> {
+    return {
+{{json}}
+    };
+};
+export default mapDispatchToProps;

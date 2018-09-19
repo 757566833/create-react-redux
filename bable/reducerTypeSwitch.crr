@@ -1,0 +1,6 @@
+case '{{component}}':
+            switch (action.func) {
+                {{case}}
+                default:
+                    return state;
+            }
