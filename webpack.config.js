@@ -1,16 +1,18 @@
-// const theme = require("./theme.js")
+const theme = require("./theme.js")
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 var AssetsPlugin = require('assets-webpack-plugin')
 const path = require('path')
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 let pathsToClean = [
     'public/js',
 ]
-
+const cmd = process.argv[3];
+console.log(cmd)
 module.exports = {
-    mode: 'production',
+    // mode: 'production',
     entry: {
-        app: ['./src/app.jsx'],
-        login: ['./src/login.jsx']
+        app: ['whatwg-fetch', './src/app.jsx'],
+        login: ['whatwg-fetch', './src/login.jsx']
     },
     output: {
         filename: "[name]/[name].[chunkhash].js",
@@ -22,9 +24,10 @@ module.exports = {
                 test: /\.jsx?$/,
                 loader: "babel-loader",
                 options: {
-                    presets: ['@babel/preset-env', "@babel/preset-react" ],
+                    presets: ['@babel/preset-env', "@babel/preset-react"],
                     plugins: [
                         "@babel/plugin-proposal-function-bind",
+                        "@babel/plugin-proposal-class-properties",
                         ['import', { libraryName: 'antd-mobile', libraryDirectory: 'es', style: true }, 'antd-mobile'],
                         ['import', { libraryName: 'antd', libraryDirectory: 'es', style: true }, 'antd']
                     ]
@@ -34,29 +37,98 @@ module.exports = {
             },
             {
                 test: /\.css$/,
-                use: ['style-loader', 'css-loader'],
+                use: [{
+                    loader: MiniCssExtractPlugin.loader
+                }, {
+                    loader: 'css-loader',
+                    options: {
+                        importLoaders: 1
+                    }
+                }, {
+                    loader: 'postcss-loader',
+                    options: {
+                        plugins: (loader) => [
+                            require('autoprefixer')({
+                                browsers: ['last 15 versions']
+                            }),
+                            require('postcss-flexbugs-fixes')(),
+                            require('cssnano')({
+                                preset: ['default', {
+                                    normalizeWhitespace: {
+                                        exclude: cmd!='production',
+                                    },
+                                }],
+                            }),
+                        ]
+                    }
+                }],
                 exclude: /node_modules/
             },
             {
                 test: /\.less$/,
                 use: [{
-                    loader: 'style-loader' // creates style nodes from JS strings
+                    loader: MiniCssExtractPlugin.loader
                 }, {
-                    loader: 'css-loader' // translates CSS into CommonJS
+                    loader: 'css-loader',
+                    options: {
+                        importLoaders: 1
+                    }
                 }, {
-                    loader: 'less-loader' // compiles Less to CSS
+                    loader: 'postcss-loader',
+                    options: {
+                        plugins: (loader) => [
+                            require('autoprefixer')({
+                                browsers: ['last 15 versions']
+                            }),
+                            require('postcss-flexbugs-fixes')(),
+                            require('cssnano')({
+                                preset: ['default', {
+                                    normalizeWhitespace: {
+                                        exclude: cmd!='production',
+                                    },
+                                }],
+                            }),
+                        ]
+                    }
+                }, {
+                    loader: 'less-loader',
+                    options: {
+                        "modifyVars": theme
+                    }
                 }],
                 exclude: /node_modules/
             },
             {
                 test: /\.scss$/,
                 use: [{
-                    loader: "style-loader"
+                    loader: MiniCssExtractPlugin.loader
                 }, {
-                    loader: "css-loader"
+                    loader: "css-loader",
+                    options: {
+                        importLoaders: 1
+                    }
+                }, {
+                    loader: 'postcss-loader',
+                    options: {
+                        plugins: (loader) => [
+                            require('autoprefixer')({
+                                browsers: ['last 15 versions']
+                            }),
+                            require('postcss-flexbugs-fixes')(),
+                            require('cssnano')({
+                                preset: ['default', {
+                                    normalizeWhitespace: {
+                                        exclude: cmd!='production',
+                                    },
+                                }],
+                            }),
+                        ]
+                    }
+
                 }, {
                     loader: "sass-loader"
-                }]
+                }],
+                exclude: /node_modules/
             },
             {
                 test: /\.(jpg|jpeg|png|svg|gif|woff|woff2|otf|ttf)?$/,
@@ -66,7 +138,9 @@ module.exports = {
     },
     plugins: [
         new CleanWebpackPlugin(pathsToClean),
-        // new ExtractTextPlugin("[name]/[name].[contenthash].css"),
+        new MiniCssExtractPlugin({
+            filename: "[name]/[name].[contenthash].css"
+        }),
         new AssetsPlugin({
             filename: 'public/fileConfig/webpack.webassets.js',
             processOutput: function (webassets) {

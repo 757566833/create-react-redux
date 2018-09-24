@@ -14,7 +14,7 @@ const reducerTypeSwitch = fs.readFileSync('./babel/reducerTypeSwitch.crr', 'utf8
 const reducerFuncCase = fs.readFileSync('./babel/reducerFuncCase.crr', 'utf8');
 const entry = fs.readFileSync('./babel/entry.crr', 'utf8');
 const entryImports = fs.readFileSync('./babel/entryImports.crr', 'utf8');
-const cmd = process.argv.splice(2);
+const cmd = process.argv[2];
 // 开始创建
 try {
     fs.mkdirSync('./src');
@@ -134,12 +134,17 @@ for (const key in json) {
 
 
                 //component
-                if (cmd[0] == 'create') {
+                if (cmd== 'create') {
                     let componentJSON = '';
 
                     for (let index = 0; index < stateArrLenght; index++) {
                         let jsonstr = BableProTypesJson.replace(/{{name}}/g, stateArr[index].name.replace(/"/g, ''))
                         jsonstr = jsonstr.replace(/{{type}}/g, stateArr[index].type.replace(/"/g, ''))
+                        componentJSON += `${jsonstr}` + '\n'
+                    }
+                    for (let index = 0; index < funcArrLenght; index++) {
+                        let jsonstr = BableProTypesJson.replace(/{{name}}/g, funcArr[index].method.replace(/"/g, ''))
+                        jsonstr = jsonstr.replace(/{{type}}/g, 'func')
                         componentJSON += `${jsonstr}` + '\n'
                     }
                     let componentFile = Bablestr.replace(/{{Key}}/g, componentsKey);

@@ -19,6 +19,7 @@ class Withdraw extends React.Component {
 }
 Withdraw.propTypes = {
     balance:PropTypes.object.isRequired,
+    setBalance:PropTypes.func.isRequired,
 
 };
 const reduxWithdraw = connect(

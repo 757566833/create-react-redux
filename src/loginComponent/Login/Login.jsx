@@ -21,6 +21,9 @@ Login.propTypes = {
     mobile:PropTypes.string.isRequired,
     password:PropTypes.string.isRequired,
     info:PropTypes.string.isRequired,
+    setMobile:PropTypes.func.isRequired,
+    setPassword:PropTypes.func.isRequired,
+    setInfo:PropTypes.func.isRequired,
 
 };
 const reduxLogin = connect(

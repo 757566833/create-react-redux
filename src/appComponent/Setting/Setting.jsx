@@ -20,6 +20,8 @@ class Setting extends React.Component {
 Setting.propTypes = {
     childrenList:PropTypes.array.isRequired,
     balance:PropTypes.object.isRequired,
+    setChildrenList:PropTypes.func.isRequired,
+    setBalance:PropTypes.func.isRequired,
 
 };
 const reduxSetting = connect(

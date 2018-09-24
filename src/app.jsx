@@ -16,7 +16,7 @@ class App extends React.Component {
     render() {
         return (
             <div>
-                <Header/>
+                <Header />
                 {this.props.children}
             </div>
         );
@@ -28,7 +28,7 @@ ReactDOM.render(
         <Router history={browserHistory}>
             <Route path='/' component={App}>
                 <IndexRoute component={HomePage} />
-                <Route path={'HomePage'} component={HomePage} />
+                <Route path={'index'} component={HomePage} />
                 <Route path={'Income'} component={Income} />
                 <Route path={'Miner'} component={Miner} />
                 <Route path={'Setting'} component={Setting} />
