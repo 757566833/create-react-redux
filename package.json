@@ -1,13 +1,60 @@
 {
   "name": "createreduxtool",
   "version": "1.0.0",
-  "description": "",
+  "description": "npm run createRedux  \r 这个是附带创建.jsx模板的注意会覆盖原有项目文件，最好只是创建的时候用",
   "main": "create-react-redux.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "createRedux":"node ./create-react-redux.js create",
-    "buildRedux":"node ./create-react-redux.js"
+    "createRedux": "node ./create-react-redux.js create",
+    "buildRedux": "node ./create-react-redux.js",
+    "pm2": "pm2 start app.js",
+    "pm2List": "pm2 list",
+    "pm2Stop": "pm2 delete app",
+    "webpack": "webpack"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "ejs": "^2.6.1",
+    "koa": "^2.5.3",
+    "koa-router": "^7.4.0",
+    "koa-static": "^5.0.0",
+    "koa-views": "^6.1.4",
+    "webpack-bundle-analyzer": "^3.0.2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.1.0",
+    "@babel/plugin-proposal-function-bind": "^7.0.0",
+    "@babel/preset-env": "^7.1.0",
+    "@babel/preset-react": "^7.0.0",
+    "assets-webpack-plugin": "^3.9.6",
+    "babel-loader": "^8.0.2",
+    "babel-plugin-import": "^1.9.1",
+    "clean-webpack-plugin": "^0.1.19",
+    "css-loader": "^1.0.0",
+    "extract-text-webpack-plugin": "^3.0.2",
+    "less-loader": "^4.1.0",
+    "pm2": "^3.1.2",
+    "postcss-flexbugs-fixes": "^4.1.0",
+    "postcss-loader": "^3.0.0",
+    "prop-types": "^15.6.2",
+    "react": "^16.5.2",
+    "react-dom": "^16.5.2",
+    "react-redux": "^5.0.7",
+    "react-router": "3.2.1",
+    "redux": "^4.0.0",
+    "sass-loader": "^7.1.0",
+    "style-loader": "^0.23.0",
+    "webpack": "^4.19.1",
+    "webpack-cli": "^3.1.1",
+    "whatwg-fetch": "^3.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/757566833/create-react-redux.git"
+  },
+  "bugs": {
+    "url": "https://github.com/757566833/create-react-redux/issues"
+  },
+  "homepage": "https://github.com/757566833/create-react-redux#readme"
 }
