@@ -41,14 +41,7 @@ for (const key in json) {
         }
 
 
-        //入口文件
-        let imports = []
-        for (const componentsKey in components) {
-            if (components.hasOwnProperty(componentsKey)) {
-                imports.push(entryImports.replace(/{{componentsKey}}/g, componentsKey).replace(/{{key}}/g, key))
-            }
-        }
-        fs.writeFileSync(`./src/${key.replace(/Component/g, '')}.jsx`, entry.replace(/{{imports}}/g, imports.toString().replace(/,/g, '\n')).replace(/{{componentRedux}}/g, key.replace(/Component/g, 'Redux')))
+
         //这里事整体store
         //state
         let keyarr = []
@@ -134,7 +127,18 @@ for (const key in json) {
 
 
                 //component
-                if (cmd== 'create') {
+                if (cmd == 'create') {
+
+                    //入口文件
+                    let imports = []
+                    for (const componentsKey in components) {
+                        if (components.hasOwnProperty(componentsKey)) {
+                            imports.push(entryImports.replace(/{{componentsKey}}/g, componentsKey).replace(/{{key}}/g, key))
+                        }
+                    }
+                    fs.writeFileSync(`./src/${key.replace(/Component/g, '')}.jsx`, entry.replace(/{{imports}}/g, imports.toString().replace(/,/g, '\n')).replace(/{{componentRedux}}/g, key.replace(/Component/g, 'Redux')))
+
+
                     let componentJSON = '';
 
                     for (let index = 0; index < stateArrLenght; index++) {

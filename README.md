@@ -7,6 +7,11 @@ npm run createRedux
 npm run buildRedux  
 这个是更新redux的 可以随时更新
 
+
+npm run dev 开发模式的编译js
+
+npm run build  线上模式的编译js（去掉console的插件还没加）
+
 问题不足的在于build之后如果方法或者参数新加或者更改类型
 每个模块的.jsx的propTypes要手动更新
 暂时没有抽出来
