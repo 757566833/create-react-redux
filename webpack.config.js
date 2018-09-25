@@ -1,13 +1,30 @@
 const theme = require("./theme.js")
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 var AssetsPlugin = require('assets-webpack-plugin')
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const path = require('path')
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 let pathsToClean = [
     'public/js',
 ]
+
 const cmd = process.argv[3];
 console.log(cmd)
+let plugins = [
+    new CleanWebpackPlugin(pathsToClean),
+    new MiniCssExtractPlugin({
+        filename: "[name]/[name].[contenthash].css"
+    }),
+    new AssetsPlugin({
+        filename: 'public/fileConfig/webpack.webassets.js',
+        processOutput: function (webassets) {
+            return 'window.WEBPACK_ASSETS = ' + JSON.stringify(webassets);
+        }
+    })
+];
+if(cmd == 'production'){
+    plugins.push(new BundleAnalyzerPlugin({ analyzerPort: 8919}))
+};
 module.exports = {
     // mode: 'production',
     entry: {
@@ -54,7 +71,7 @@ module.exports = {
                             require('cssnano')({
                                 preset: ['default', {
                                     normalizeWhitespace: {
-                                        exclude: cmd!='production',
+                                        exclude: cmd != 'production',
                                     },
                                 }],
                             }),
@@ -83,7 +100,7 @@ module.exports = {
                             require('cssnano')({
                                 preset: ['default', {
                                     normalizeWhitespace: {
-                                        exclude: cmd!='production',
+                                        exclude: cmd != 'production',
                                     },
                                 }],
                             }),
@@ -117,7 +134,7 @@ module.exports = {
                             require('cssnano')({
                                 preset: ['default', {
                                     normalizeWhitespace: {
-                                        exclude: cmd!='production',
+                                        exclude: cmd != 'production',
                                     },
                                 }],
                             }),
@@ -135,18 +152,7 @@ module.exports = {
             },
         ]
     },
-    plugins: [
-        new CleanWebpackPlugin(pathsToClean),
-        new MiniCssExtractPlugin({
-            filename: "[name]/[name].[contenthash].css"
-        }),
-        new AssetsPlugin({
-            filename: 'public/fileConfig/webpack.webassets.js',
-            processOutput: function (webassets) {
-                return 'window.WEBPACK_ASSETS = ' + JSON.stringify(webassets);
-            }
-        })
-    ],
+    plugins: plugins,
 
 
 };
