@@ -26,7 +26,6 @@ module.exports = {
                 options: {
                     presets: ['@babel/preset-env', "@babel/preset-react"],
                     plugins: [
-                        "@babel/plugin-proposal-function-bind",
                         "@babel/plugin-proposal-class-properties",
                         ['import', { libraryName: 'antd-mobile', libraryDirectory: 'es', style: true }, 'antd-mobile'],
                         ['import', { libraryName: 'antd', libraryDirectory: 'es', style: true }, 'antd']
