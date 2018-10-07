@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import mapStateToProps from './mapStateToProps.jsx';
 import mapDispatchToProps from './mapDispatchToProps.jsx';
 import { connect } from 'react-redux';
-import './Header.less'
+import './Header.less';
 
 class Header extends React.Component {
     constructor(props) {

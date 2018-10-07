@@ -51,6 +51,14 @@ for (const key in json) {
                 let stateArr = components[componentsKey].state;
                 let length = stateArr.length
                 for (let index = 0; index < length; index++) {
+                    if(!stateArr[index].name){
+                        console.error(`${key}.${componentsKey}.state[${index}] must be has name`);
+                        return
+                    }
+                    if(!stateArr[index].default){
+                        console.error(`${key}.${componentsKey}.state[${index}] must be has default`);
+                        return
+                    }
                     keyarr.push(stateArr[index].name)
                     valuearr.push(stateArr[index].default.replace(/"/g, ''))
                 }
@@ -94,14 +102,33 @@ for (const key in json) {
                     // console.log(error)
                 }
                 let funcArr = components[componentsKey].func;
-                let funcArrLenght = funcArr.length;
+                
                 let stateArr = components[componentsKey].state;
+                if(!Array.isArray(funcArr)){
+                    console.error(`${key}.${components}.${componentsKey}.func must be Array`);
+                    return
+                }
+                if(!Array.isArray(stateArr)){
+                    console.error(`${key}.${componentsKey}.state must be Array`);
+                    return
+                }
+                let funcArrLenght = funcArr.length;
                 let stateArrLenght = stateArr.length;
+                
 
                 // action mapDispatchToProps
                 let actionJSON = '';
                 let mapDispatchToPropsJSON = '';
                 for (let index = 0; index < funcArrLenght; index++) {
+                    if(!funcArr[index].method){
+                        console.error(`${key}.${componentsKey}.func[${index}] must be has method`);
+                        return
+                    }
+                    if(!funcArr[index].parameter){
+                        console.error(`${key}.${componentsKey}.func[${index}] must be has parameter`);
+                        return
+                    }
+                    
                     let actionjsonstr = actionJsonstr.replace(/{{type}}/g, componentsKey)
                     actionjsonstr = actionjsonstr.replace(/{{func}}/g, funcArr[index].method.replace(/"/g, ''))
                     actionjsonstr = actionjsonstr.replace(/{{parameter}}/g, funcArr[index].parameter.replace(/"/g, ''))
@@ -113,16 +140,35 @@ for (const key in json) {
                 }
                 let actionstrFile = actionstr.replace(/{{json}}/g, actionJSON)
                 fs.writeFileSync(`./src/${key}/${componentsKey}/action.jsx`, actionstrFile)
-                let mapDispatchToPropsFile = mapDispatchToPropsstr.replace(/{{json}}/g, mapDispatchToPropsJSON)
+                let mapDispatchToPropsFile = mapDispatchToPropsstr
+                //这里为什么替换失败
+                console.log(mapDispatchToPropsFile);
+                if(funcArrLenght!=0){
+                    mapDispatchToPropsFile = mapDispatchToPropsstr.replace(/{{import}}/g, "import action from './action.jsx';")
+                }else{
+                    mapDispatchToPropsFile = mapDispatchToPropsstr.replace(/{{import}}/g, '').replace(/dispatch/g, '')
+                }
+                mapDispatchToPropsFile = mapDispatchToPropsFile.replace(/{{json}}/g, mapDispatchToPropsJSON)
+                console.log(mapDispatchToPropsFile);
                 fs.writeFileSync(`./src/${key}/${componentsKey}/mapDispatchToProps.jsx`, mapDispatchToPropsFile)
 
                 //mapStateToProps
                 let mapStateToPropsJSON = '';
                 for (let index = 0; index < stateArrLenght; index++) {
+                    if(!stateArr[index].name){
+                        console.error(`${key}.${componentsKey}.state[${index}] must be has name`);
+                        return
+                    }
                     let jsonstr = mapStateToPropsJson.replace(/{{name}}/g, stateArr[index].name.replace(/"/g, ''))
                     mapStateToPropsJSON += `${jsonstr}` + '\n'
                 }
                 let mapStateToPropsFile = mapStateToPropsstr.replace(/{{json}}/g, mapStateToPropsJSON);
+                if(stateArrLenght!=0){
+
+                }else{
+                    mapStateToPropsFile = mapStateToPropsFile.replace(/\(state\)/g, '()')
+                    console.log(mapDispatchToPropsFile);
+                }
                 fs.writeFileSync(`./src/${key}/${componentsKey}/mapStateToProps.jsx`, mapStateToPropsFile)
 
 
@@ -142,6 +188,10 @@ for (const key in json) {
                     let componentJSON = '';
 
                     for (let index = 0; index < stateArrLenght; index++) {
+                        if(!stateArr[index].type){
+                            console.error(`${key}.${componentsKey}.state[${index}] must be has type`);
+                            return
+                        }
                         let jsonstr = BableProTypesJson.replace(/{{name}}/g, stateArr[index].name.replace(/"/g, ''))
                         jsonstr = jsonstr.replace(/{{type}}/g, stateArr[index].type.replace(/"/g, ''))
                         componentJSON += `${jsonstr}` + '\n'
@@ -151,6 +201,8 @@ for (const key in json) {
                         jsonstr = jsonstr.replace(/{{type}}/g, 'func')
                         componentJSON += `${jsonstr}` + '\n'
                     }
+                    //还差最后一个
+                    
                     let componentFile = Bablestr.replace(/{{Key}}/g, componentsKey);
                     componentFile = componentFile.replace(/{{json}}/g, componentJSON);
                     fs.writeFileSync(`./src/${key}/${componentsKey}/${componentsKey}.jsx`, componentFile)

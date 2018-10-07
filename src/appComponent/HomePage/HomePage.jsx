@@ -3,14 +3,14 @@ import PropTypes from 'prop-types';
 import mapStateToProps from './mapStateToProps.jsx';
 import mapDispatchToProps from './mapDispatchToProps.jsx';
 import { connect } from 'react-redux';
-import './HomePage.scss'
+import './HomePage.scss';
 
 class HomePage extends React.Component {
     constructor(props) {
         super(props);
     }
     test=()=>{
-        this.props.setDefaultChild({userName:'dsadsa'})
+        this.props.setDefaultChild({userName:'dsadsa'});
     }
     render() {
         return (

@@ -1,4 +1,4 @@
-import action from './action.jsx';
+{{import}}
 
 const mapDispatchToProps=(dispatch)=> {
     return {

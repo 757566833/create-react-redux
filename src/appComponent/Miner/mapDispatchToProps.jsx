@@ -1,6 +1,6 @@
-import action from './action.jsx';
 
-const mapDispatchToProps=(dispatch)=> {
+
+const mapDispatchToProps=()=> {
     return {
 
     };

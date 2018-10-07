@@ -1,1 +1,1 @@
-window.WEBPACK_ASSETS = {"app":{"css":"app/app.d10255f2ae223498d068.css","js":"app/app.db358824009ce1e78fef.js"},"login":{"js":"login/login.f6b769d747698be05570.js"}}
+window.WEBPACK_ASSETS = {"app":{"css":"app/app.2146ebed25d40eeab555.css","js":"app/app.676569ba718d28e311b9.js"},"login":{"js":"login/login.a6620744315de41dbdc3.js"}}
