@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import mapStateToProps from './mapStateToProps.jsx';
 import mapDispatchToProps from './mapDispatchToProps.jsx';
 import { connect } from 'react-redux';
-
+import { Button } from 'antd';
 
 class HomePage extends React.Component {
     constructor(props) {
@@ -13,6 +13,7 @@ class HomePage extends React.Component {
         return (
             <div>
                 HomePage
+                <Button type="primary">Primary</Button>
             </div>
         );
     }

@@ -22,8 +22,8 @@ let plugins = [
         }
     })
 ];
-if(cmd == 'production'){
-    plugins.push(new BundleAnalyzerPlugin({ analyzerPort: 8919}))
+if (cmd == 'production') {
+    plugins.push(new BundleAnalyzerPlugin({ analyzerPort: 8919 }))
 };
 module.exports = {
     // mode: 'production',
@@ -44,8 +44,8 @@ module.exports = {
                     presets: ['@babel/preset-env', "@babel/preset-react"],
                     plugins: [
                         "@babel/plugin-proposal-class-properties",
-                        ['import', { libraryName: 'antd-mobile', libraryDirectory: 'es', style: true }, 'antd-mobile'],
-                        ['import', { libraryName: 'antd', libraryDirectory: 'es', style: true }, 'antd']
+                        ["import", { "libraryName": "antd", "libraryDirectory": "lib", 'style': true }, "ant"],
+                        ["import", { "libraryName": "ant-mobile", "libraryDirectory": "lib" ,'style': true}, "ant-mobile"]
                     ]
                 },
 
@@ -109,10 +109,10 @@ module.exports = {
                 }, {
                     loader: 'less-loader',
                     options: {
-                        "modifyVars": theme
+                        "modifyVars": theme,
+                        javascriptEnabled: true,
                     }
                 }],
-                exclude: /node_modules/
             },
             {
                 test: /\.scss$/,
