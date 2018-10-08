@@ -13,7 +13,8 @@
     document.write('<script src="/fileConfig/webpack.webassets.js?v=' + Math.random() + '"><\/script>');
 </script>
 <script>
-    // document.write('<link rel="stylesheet" type="text/css" href="/js/' + window.WEBPACK_ASSETS['login']['css'] + '"><\/link>');
+    document.write('<link rel="stylesheet" type="text/css" href="/js/' + window.WEBPACK_ASSETS['login']['css'] + '"><\/link>');
+    document.write('<script src="/public/serverasset/js/' + window.WEBPACK_ASSETS['react']['js'] + '"><\/script>');
     document.write('<script src="/js/' + window.WEBPACK_ASSETS['login']['js'] + '"><\/script>');
 </script>
 </html>

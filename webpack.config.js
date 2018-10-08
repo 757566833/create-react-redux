@@ -35,6 +35,17 @@ module.exports = {
         filename: "[name]/[name].[chunkhash].js",
         path: path.resolve(__dirname, 'public', 'js')
     },
+    optimization: {
+        splitChunks: {
+            cacheGroups: {
+                react: {
+                    test: /[\\/]node_modules[\\/](react|react-dom)[\\/]/,
+                    name: 'react',
+                    chunks: 'all',
+                }
+            }
+        }
+    },
     module: {
         rules: [
             {
