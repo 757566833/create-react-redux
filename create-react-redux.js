@@ -205,6 +205,9 @@ for (const key in json) {
                     
                     let componentFile = Bablestr.replace(/{{Key}}/g, componentsKey);
                     componentFile = componentFile.replace(/{{json}}/g, componentJSON);
+                    if(stateArrLenght==0&&funcArrLenght==0){
+                        componentFile = componentFile.replace(/import PropTypes/g, '\/\/ import PropTypes');
+                    }
                     fs.writeFileSync(`./src/${key}/${componentsKey}/${componentsKey}.jsx`, componentFile)
                 }
 

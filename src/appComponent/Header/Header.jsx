@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import mapStateToProps from './mapStateToProps.jsx';
 import mapDispatchToProps from './mapDispatchToProps.jsx';
 import { connect } from 'react-redux';
-import './Header.less';
+
 
 class Header extends React.Component {
     constructor(props) {
@@ -11,9 +11,8 @@ class Header extends React.Component {
     }
     render() {
         return (
-            <div className='Header'>
+            <div>
                 Header
-                {this.props.defaultChild.userName}
             </div>
         );
     }
