@@ -1,134 +1,43 @@
 {
-    "appComponent": {
-        "Header": {
-            "state": [
-                {
+    "app": {
+        "components": {
+            "Header": {
+                "state": [{
                     "name": "defaultChild",
                     "type": "object",
-                    "default":"{ userName: ''}"
-                },
-                {
-                    "name": "phoneNumber",
-                    "type": "string",
-                    "default":"''"
-                },
-                {
-                    "name": "childrenList",
-                    "type": "array",
-                    "default":"[]"
-                }
-            ],
-            "func": [
-                {
-                    "method": "setDefaultChild",
-                    "parameter": "defaultChild"
-                },
-                {
-                    "method": "setPhoneNumber",
-                    "parameter": "phoneNumber"
-                },
-                {
-                    "method": "setChildrenList",
-                    "parameter": "childrenList"
-                }
-            ]
+                    "default": "{ userName: '',currency:'BCH' }"
+                }],
+                "func": [
+                    {
+                        "method": "setDefaultChild",
+                        "parameter": "defaultChild"
+                    }
+                ]
+            },
+            "Menus": {
+                "state": [],
+                "func": []
+            },
+            "ArticleList": {
+                "state": [],
+                "func": []
+            },
+            "SearchHeader": {
+                "state": [],
+                "func": []
+            }
         },
-        "HomePage": {
-            "state": [
-                {
-                    "name": "defaultChild",
-                    "type": "object",
-                    "default":"{ userName: ''}"
-                }
-            ],
-            "func": [
-                {
-                    "method": "setDefaultChild",
-                    "parameter": "defaultChild"
-                }
-            ]
-        },
-        "Income": {
-            "state": [],
-            "func": []
-        },
-        "Miner": {
-            "state": [],
-            "func": []
-        },
-        "Setting": {
-            "state": [
-                {
-                    "name": "childrenList",
-                    "type": "array",
-                    "default":"[]"
-                },
-                {
-                    "name": "balance",
-                    "type": "object",
-                    "default":"{}"
-                }
-            ],
-            "func": [
-                {
-                    "method": "setChildrenList",
-                    "parameter": "childrenList"
-                },
-                {
-                    "method": "setBalance",
-                    "parameter": "balance"
-                }
-            ]
-        },
-        "Withdraw": {
-            "state": [
-                {
-                    "name": "balance",
-                    "type": "object",
-                    "default":"{}"
-                }
-            ],
-            "func": [
-                {
-                    "method": "setBalance",
-                    "parameter": "balance"
-                }
-            ]
-        }
-    },
-    "loginComponent":{
-        "Login":{
-            "state": [
-                {
-                    "name": "mobile",
-                    "type": "string",
-                    "default":"''"
-                },
-                {
-                    "name": "password",
-                    "type": "string",
-                    "default":"''"
-                },
-                {
-                    "name": "info",
-                    "type": "string",
-                    "default":"''"
-                }
-            ],
-            "func": [
-                {
-                    "method": "setMobile",
-                    "parameter": "mobile"
-                },
-                {
-                    "method": "setPassword",
-                    "parameter": "password"
-                },
-                {
-                    "method": "setInfo",
-                    "parameter": "info"
-                }
-            ]
+        "views": {
+            "IndexView": {
+                "components": ["Header", "Menus", "ArticleList"]
+            },
+            "SearchView": {
+                "components": ["SearchHeader", "ArticleList"]
+            },
+            "AdminView": {
+                "components": []
+            }
         }
     }
+
 }

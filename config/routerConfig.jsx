@@ -1,0 +1,2 @@
+const indexRouter = '/';
+export { indexRouter }

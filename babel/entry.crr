@@ -1,8 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router, Route, browserHistory, IndexRoute } from 'react-router';
-import store from './{{componentRedux}}/store.jsx';
+import store from './redux/store.jsx';
 import { Provider } from 'react-redux';
+import { indexRouter } from '../../config/routerConfig.jsx';
 {{imports}}
 class App extends React.Component {
     constructor(props) {
@@ -20,12 +21,11 @@ class App extends React.Component {
 ReactDOM.render(
     <Provider store={store}>
         <Router history={browserHistory}>
-            <Route path='/' component={App}>
-            {/* <Route path={indexRouter} component={App}>
-                <IndexRoute component={HomePage} />
-                <Route path={'index'} component={HomePage} />
-                <Route path={'**'} component={HomePage} />
-            </Route> */}
+            
+            <Route path={ indexRouter } component={App}>
+                <IndexRoute component={IndexView} />
+{{routers}}
+                <Route path={'**'} component={IndexView} />
             </Route>
         </Router>
     </Provider>

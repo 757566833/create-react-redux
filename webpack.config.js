@@ -28,8 +28,7 @@ if (cmd == 'production') {
 module.exports = {
     // mode: 'production',
     entry: {
-        app: ['whatwg-fetch', './src/app.jsx'],
-        login: ['whatwg-fetch', './src/login.jsx']
+        app: ['whatwg-fetch', './src/app/app.jsx'],
     },
     output: {
         filename: "[name]/[name].[chunkhash].js",
