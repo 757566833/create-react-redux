@@ -1,6 +1,7 @@
 const theme = require("./theme.js")
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 var AssetsPlugin = require('assets-webpack-plugin')
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const {
     BundleAnalyzerPlugin
 } = require('webpack-bundle-analyzer');
@@ -12,6 +13,16 @@ let pathsToClean = [
 
 const cmd = process.argv[3];
 console.log(cmd)
+let compress = {
+
+}
+if (cmd == 'production') {
+    compress = {
+        warnings: false,
+        drop_debugger: true,
+        drop_console: true
+    }
+};
 let plugins = [
     new CleanWebpackPlugin(pathsToClean),
     new MiniCssExtractPlugin({
@@ -47,10 +58,12 @@ module.exports = {
                     chunks: 'all',
                 }
             }
-        }
-    },
-    resolve: {
-        extensions: ['.js', '.jsx']
+        },
+        minimizer: [new UglifyJsPlugin({
+            uglifyOptions: {
+                compress: compress
+            }
+        })]
     },
     module: {
         rules: [{
