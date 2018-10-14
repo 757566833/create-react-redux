@@ -1,7 +1,9 @@
 const theme = require("./theme.js")
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 var AssetsPlugin = require('assets-webpack-plugin')
-const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+const {
+    BundleAnalyzerPlugin
+} = require('webpack-bundle-analyzer');
 const path = require('path')
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 let pathsToClean = [
@@ -23,7 +25,9 @@ let plugins = [
     })
 ];
 if (cmd == 'production') {
-    plugins.push(new BundleAnalyzerPlugin({ analyzerPort: 8919 }))
+    plugins.push(new BundleAnalyzerPlugin({
+        analyzerPort: 8919
+    }))
 };
 module.exports = {
     // mode: 'production',
@@ -45,17 +49,27 @@ module.exports = {
             }
         }
     },
+    resolve: {
+        extensions: ['.js', '.jsx']
+    },
     module: {
-        rules: [
-            {
+        rules: [{
                 test: /\.jsx?$/,
                 loader: "babel-loader",
                 options: {
                     presets: ['@babel/preset-env', "@babel/preset-react"],
                     plugins: [
                         "@babel/plugin-proposal-class-properties",
-                        ["import", { "libraryName": "antd", "libraryDirectory": "lib", 'style': true }, "ant"],
-                        ["import", { "libraryName": "ant-mobile", "libraryDirectory": "lib" ,'style': true}, "ant-mobile"]
+                        ["import", {
+                            "libraryName": "antd",
+                            "libraryDirectory": "lib",
+                            'style': true
+                        }, "ant"],
+                        ["import", {
+                            "libraryName": "ant-mobile",
+                            "libraryDirectory": "lib",
+                            'style': true
+                        }, "ant-mobile"]
                     ]
                 },
 
