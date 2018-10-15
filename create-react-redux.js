@@ -17,6 +17,7 @@ const entryImports = fs.readFileSync('./babel/entryImports.crr', 'utf8');
 const entryRouterStr = fs.readFileSync('./babel/entryRouter.crr', 'utf8');
 const viewstr = fs.readFileSync('./babel/view.crr', 'utf8');
 const viewImports = fs.readFileSync('./babel/viewImports.crr', 'utf8');
+const controlStr = fs.readFileSync('./babel/control.crr', 'utf8');
 const cmd = process.argv[2];
 // 开始创建
 try {
@@ -205,7 +206,8 @@ for (const key in json) {
                         }
                     }
                     fs.writeFileSync(`./src/${key}/${key}.jsx`, entrystr.replace(/{{imports}}/g, imports).replace(/{{routers}}/g,routers))
-
+                    
+                    
                     let componentJSON = '';
 
                     for (let index = 0; index < stateArrLenght; index++) {
@@ -230,7 +232,7 @@ for (const key in json) {
                         componentFile = componentFile.replace(/import PropTypes/g, '\/\/ import PropTypes');
                     }
                     fs.writeFileSync(`./src/${key}/components/${componentsKey}/${componentsKey}.jsx`, componentFile)
-
+                    fs.writeFileSync(`./src/${key}/components/${componentsKey}/control.jsx`, controlStr)
                     
                 }
             }

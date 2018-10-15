@@ -1,1 +1,1 @@
-window.WEBPACK_ASSETS = {"app":{"js":"app/app.1d3458d3427f5cf69323.js"},"react":{"js":"react/react.3dc008e5e0f1a0fbb3cd.js"}}
+window.WEBPACK_ASSETS = {"app":{"js":"app/app.353518ad2925ec2eba22.js"},"react":{"js":"react/react.3dc008e5e0f1a0fbb3cd.js"}}

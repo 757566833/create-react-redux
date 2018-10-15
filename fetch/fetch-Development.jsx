@@ -10,7 +10,7 @@ const getFetch = (url, parameter, callback, returnError) => {
     }
     parameterStr = parameterStr.substr(0, parameterStr.length - 1);
     let startTime = new Date().getTime();
-    fetch(url + parameterStr, {
+    return fetch(url + parameterStr, {
         method: 'get',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'same-origin'
@@ -21,20 +21,11 @@ const getFetch = (url, parameter, callback, returnError) => {
         if (response.status == 200) {
             return response.text();
         } else {
-
-            returnError(response.status);
-            return '';
+            return response.status;
         }
     }, (error) => {
         error.message;
-    }).then((data) => {
-        if (data) {
-            callback(data);
-        } else {
-            console.log();
-        }
-
-    });
+    })
 };
 const postFetch = (url, parameter, callback, returnError) => {
 
