@@ -7,12 +7,10 @@
                     "type": "object",
                     "default": "{ userName: '',currency:'BCH' }"
                 }],
-                "func": [
-                    {
-                        "method": "setDefaultChild",
-                        "parameter": "defaultChild"
-                    }
-                ]
+                "func": [{
+                    "method": "setDefaultChild",
+                    "parameter": "defaultChild"
+                }]
             },
             "Menus": {
                 "state": [],
@@ -29,13 +27,26 @@
         },
         "views": {
             "IndexView": {
-                "components": ["Header", "Menus", "ArticleList"]
+                "components": ["Header", "Menus", "ArticleList"],
+                "state": [{
+                    "name": "defaultChild",
+                    "type": "object",
+                    "default": "{ userName: '',currency:'BCH' }"
+                }],
+                "func": [{
+                    "method": "setDefaultChild",
+                    "parameter": "defaultChild"
+                }]
             },
             "SearchView": {
-                "components": ["SearchHeader", "ArticleList"]
+                "components": ["SearchHeader", "ArticleList"],
+                "state": [],
+                "func": []
             },
             "AdminView": {
-                "components": []
+                "components": [],
+                "state": [],
+                "func": []
             }
         }
     }

@@ -168,6 +168,10 @@ for (const key in json) {
                         console.error(`${key}.${componentsKey}.state[${index}] must be has name`);
                         return
                     }
+                    if (!stateArr[index].default) {
+                        console.error(`${key}.${componentsKey}.state[${index}] must be has default`);
+                        return
+                    }
                     let jsonstr = mapStateToPropsJson.replace(/{{name}}/g, stateArr[index].name.replace(/"/g, ''))
                     mapStateToPropsJSON += `${jsonstr}` + '\n'
                 }
@@ -190,24 +194,96 @@ for (const key in json) {
                     }
                     //每个view 和入口文件
                     let views = json[key].views
-                    let imports='';
+                    let imports = '';
                     let routers = '';
                     for (const viewsKey in views) {
                         if (views.hasOwnProperty(viewsKey)) {
-                            imports+=entryImports.replace(/{{componentsKey}}/g, viewsKey)
+                            try {
+                                fs.mkdirSync(`./src/${key}/view/${viewsKey}`);
+                            } catch (error) {
+                                // console.log(error)
+                            }
+                            imports += entryImports.replace(/{{componentsKey}}/g, viewsKey)
                             let viewImportsStr = ''
-                            routers+=entryRouterStr.replace(/{{router}}/g, viewsKey);
+                            routers += entryRouterStr.replace(/{{router}}/g, viewsKey);
                             for (let index = 0; index < views[viewsKey].components.length; index++) {
                                 viewImportsStr += viewImports.replace(/{{componentsKey}}/g, views[viewsKey].components[index]);
-                                
+
+                            }
+                            let viewstate = views[viewsKey].state;
+                            let viewfunc = views[viewsKey].func;
+                            if (!Array.isArray(viewstate)) {
+                                console.error(`views.${viewsKey}.state must be Array`);
+                                return
+                            }
+                            if (!Array.isArray(viewfunc)) {
+                                console.error(`views.${viewsKey}.func must be Array`);
+                                return
+                            }
+                            let mapStateToPropsJSON = '';
+
+                            for (let index = 0; index < viewstate.length; index++) {
+                                if (!viewstate[index].name) {
+                                    console.error(`views.${viewsKey}.state[${index}] must be has name`);
+                                    return
+                                }
+                                if (!viewstate[index].default) {
+                                    console.error(`views.${viewsKey}.state[${index}] must be has default`);
+                                    return
+                                }
+                                let jsonstr = mapStateToPropsJson.replace(/{{name}}/g, viewstate[index].name.replace(/"/g, ''))
+                                mapStateToPropsJSON += `${jsonstr}` + '\n'
+                            }
+                            let actionJSON = '';
+                            let mapDispatchToPropsJSON = '';
+                            for (let index = 0; index < viewfunc.length; index++) {
+                                if (!viewfunc[index].method) {
+                                    console.error(`views.${viewsKey}.func[${index}] must be has method`);
+                                    return
+                                }
+                                if (!viewfunc[index].parameter) {
+                                    console.error(`views.${viewsKey}.func[${index}] must be has parameter`);
+                                    return
+                                }
+                                let actionjsonstr = actionJsonstr.replace(/{{type}}/g, componentsKey)
+                                actionjsonstr = actionjsonstr.replace(/{{func}}/g, viewfunc[index].method.replace(/"/g, ''))
+                                actionjsonstr = actionjsonstr.replace(/{{parameter}}/g, viewfunc[index].parameter.replace(/"/g, ''))
+                                actionJSON += `${actionjsonstr}` + '\n'
+
+                                let mapDispatchToPropsjsonstr = mapDispatchToPropsJson.replace(/{{method}}/g, viewfunc[index].method.replace(/"/g, ''))
+                                mapDispatchToPropsjsonstr = mapDispatchToPropsjsonstr.replace(/{{parameter}}/g, viewfunc[index].parameter.replace(/"/g, ''))
+                                mapDispatchToPropsJSON += `${mapDispatchToPropsjsonstr}` + '\n'
                             }
                             let viewFile = viewstr.replace(/{{imports}}/g, viewImportsStr).replace(/{{name}}/g, viewsKey);
-                            fs.writeFileSync(`./src/${key}/view/${viewsKey}.jsx`, viewFile)
+                            fs.writeFileSync(`./src/${key}/view/${viewsKey}/${viewsKey}.jsx`, viewFile)
+                            let actionstrFile = actionstr.replace(/{{json}}/g, actionJSON)
+                            fs.writeFileSync(`./src/${key}/view/${viewsKey}/aciton.jsx`, actionstrFile)
+                            let mapDispatchToPropsFile = mapDispatchToPropsstr
+                            //这里为什么替换失败
+                            // console.log(mapDispatchToPropsFile);
+                            if (viewfunc.length != 0) {
+                                mapDispatchToPropsFile = mapDispatchToPropsstr.replace(/{{import}}/g, "import action from './action.jsx';")
+                            } else {
+                                mapDispatchToPropsFile = mapDispatchToPropsstr.replace(/{{import}}/g, '').replace(/dispatch/g, '')
+                            }
+                            mapDispatchToPropsFile = mapDispatchToPropsFile.replace(/{{json}}/g, mapDispatchToPropsJSON)
+                            fs.writeFileSync(`./src/${key}/view/${viewsKey}/mapDispatchToProps.jsx`, mapDispatchToPropsFile)
+
+                            let mapStateToPropsFile = mapStateToPropsstr.replace(/{{json}}/g, mapStateToPropsJSON);
+                            if (viewstate.length != 0) {
+            
+                            } else {
+                                mapStateToPropsFile = mapStateToPropsFile.replace(/\(state\)/g, '()')
+                                // console.log(mapDispatchToPropsFile);
+                            }
+
+                            fs.writeFileSync(`./src/${key}/view/${viewsKey}/mapStateToProps.jsx`, mapStateToPropsFile)
+                            fs.writeFileSync(`./src/${key}/view/${viewsKey}/control.jsx`, controlStr)
                         }
                     }
-                    fs.writeFileSync(`./src/${key}/${key}.jsx`, entrystr.replace(/{{imports}}/g, imports).replace(/{{routers}}/g,routers))
-                    
-                    
+                    fs.writeFileSync(`./src/${key}/${key}.jsx`, entrystr.replace(/{{imports}}/g, imports).replace(/{{routers}}/g, routers))
+
+
                     let componentJSON = '';
 
                     for (let index = 0; index < stateArrLenght; index++) {
@@ -233,7 +309,7 @@ for (const key in json) {
                     }
                     fs.writeFileSync(`./src/${key}/components/${componentsKey}/${componentsKey}.jsx`, componentFile)
                     fs.writeFileSync(`./src/${key}/components/${componentsKey}/control.jsx`, controlStr)
-                    
+
                 }
             }
         }
