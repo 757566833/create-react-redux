@@ -1,1 +1,1 @@
-import {{componentsKey}} from './view/{{componentsKey}}.jsx';
+import {{componentsKey}} from './view/{{componentsKey}}/{{componentsKey}}.jsx';

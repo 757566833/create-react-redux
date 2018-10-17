@@ -1,6 +1,10 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import mapStateToProps from './mapStateToProps.jsx';
+import mapDispatchToProps from './mapDispatchToProps.jsx';
+import { connect } from 'react-redux';
 {{imports}}
-export default class {{name}} extends React.Component{
+class {{name}} extends React.Component{
     constructor(props){
         super(props);
     }
@@ -12,3 +16,11 @@ export default class {{name}} extends React.Component{
         );
     }
 }
+{{name}}.propTypes = {
+{{json}}
+};
+const redux{{name}} = connect(
+    mapStateToProps,
+    mapDispatchToProps
+)({{name}});
+export default redux{{name}};

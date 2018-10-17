@@ -28,7 +28,7 @@ try {
 
 // const jsonstr = fs.readFileSync('./create-react-redux.json', 'utf8');
 // let json = JSON.parse(jsonstr);
-let json =  require('./create-react-redux-data.js');
+let json = require('./create-react-redux-data.js');
 console.log(json)
 
 for (const key in json) {
@@ -55,6 +55,7 @@ for (const key in json) {
         //这里事整体store
         //state
         let components = json[key].components
+        let views = json[key].views
         let keyarr = []
         let valuearr = []
         for (const componentsKey in components) {
@@ -66,7 +67,7 @@ for (const key in json) {
                         console.error(`${key}.components.${componentsKey}.state[${index}] must be has name`);
                         return
                     }
-                    if (stateArr[index].default==undefined) {
+                    if (stateArr[index].default == undefined) {
                         console.error(`${key}.components.${componentsKey}.state[${index}] must be has default`);
                         return
                     }
@@ -94,6 +95,16 @@ for (const key in json) {
             if (components.hasOwnProperty(componentsKey)) {
                 let reducerTypeSwitchStr = reducerTypeSwitch.replace(/{{component}}/g, componentsKey)
                 let caseArr = components[componentsKey].func.map((item) => {
+                    return reducerFuncCase.replace(/{{method}}/g, item.method).replace(/{{parameter}}/g, item.parameter);
+                })
+                reducerTypeSwitchStr = reducerTypeSwitchStr.replace(/{{case}}/g, caseArr.toString().replace(/;,/g, ';\n' + '                '))
+                typeSwitch += reducerTypeSwitchStr + '\n' + '        '
+            }
+        }
+        for (const viewskey in views) {
+            if (views.hasOwnProperty(viewskey)) {
+                let reducerTypeSwitchStr = reducerTypeSwitch.replace(/{{component}}/g, viewskey)
+                let caseArr = views[viewskey].func.map((item) => {
                     return reducerFuncCase.replace(/{{method}}/g, item.method).replace(/{{parameter}}/g, item.parameter);
                 })
                 reducerTypeSwitchStr = reducerTypeSwitchStr.replace(/{{case}}/g, caseArr.toString().replace(/;,/g, ';\n' + '                '))
@@ -177,7 +188,7 @@ for (const key in json) {
                         console.error(`${key}.components.${componentsKey}.state[${index}] must be has name`);
                         return
                     }
-                    if (stateArr[index].default==undefined) {
+                    if (stateArr[index].default == undefined) {
                         console.error(`${key}.components.${componentsKey}.state[${index}] must be has default`);
                         return
                     }
@@ -231,7 +242,7 @@ for (const key in json) {
                                 return
                             }
                             let mapStateToPropsJSON = '';
-
+                            let viewpropTypesJSON = '';
                             for (let index = 0; index < viewstate.length; index++) {
                                 if (!viewstate[index].name) {
                                     console.error(`views.${viewsKey}.state[${index}] must be has name`);
@@ -244,6 +255,16 @@ for (const key in json) {
                                 // let jsonstr = mapStateToPropsJson.replace(/{{name}}/g, viewstate[index].name.replace(/"/g, ''))
                                 let jsonstr = mapStateToPropsJson.replace(/{{name}}/g, viewstate[index].name)
                                 mapStateToPropsJSON += `${jsonstr}` + '\n'
+
+                                if (!viewstate[index].type) {
+                                    console.error(`${key}.components.${componentsKey}.state[${index}] must be has type`);
+                                    return
+                                }
+                                // let jsonstr = BableProTypesJson.replace(/{{name}}/g, stateArr[index].name.replace(/"/g, ''))
+                                let jsonpropTypesstr = BableProTypesJson.replace(/{{name}}/g, viewstate[index].name)
+                                // jsonstr = jsonstr.replace(/{{type}}/g, stateArr[index].type.replace(/"/g, ''))
+                                jsonpropTypesstr = jsonpropTypesstr.replace(/{{type}}/g, viewstate[index].type)
+                                viewpropTypesJSON += `${jsonpropTypesstr}` + '\n'
                             }
                             let actionJSON = '';
                             let mapDispatchToPropsJSON = '';
@@ -256,7 +277,7 @@ for (const key in json) {
                                     console.error(`views.${viewsKey}.func[${index}] must be has parameter`);
                                     return
                                 }
-                                let actionjsonstr = actionJsonstr.replace(/{{type}}/g, componentsKey)
+                                let actionjsonstr = actionJsonstr.replace(/{{type}}/g, viewsKey)
                                 // actionjsonstr = actionjsonstr.replace(/{{func}}/g, viewfunc[index].method.replace(/"/g, ''))
                                 actionjsonstr = actionjsonstr.replace(/{{func}}/g, viewfunc[index].method)
                                 // actionjsonstr = actionjsonstr.replace(/{{parameter}}/g, viewfunc[index].parameter.replace(/"/g, ''))
@@ -268,11 +289,20 @@ for (const key in json) {
                                 // mapDispatchToPropsjsonstr = mapDispatchToPropsjsonstr.replace(/{{parameter}}/g, viewfunc[index].parameter.replace(/"/g, ''))
                                 mapDispatchToPropsjsonstr = mapDispatchToPropsjsonstr.replace(/{{parameter}}/g, viewfunc[index].parameter)
                                 mapDispatchToPropsJSON += `${mapDispatchToPropsjsonstr}` + '\n'
+
+
+                                let jsonstr = BableProTypesJson.replace(/{{name}}/g, viewfunc[index].method)
+                                jsonstr = jsonstr.replace(/{{type}}/g, 'func')
+                                viewpropTypesJSON += `${jsonstr}` + '\n'
                             }
                             let viewFile = viewstr.replace(/{{imports}}/g, viewImportsStr).replace(/{{name}}/g, viewsKey);
+                            viewFile = viewFile.replace(/{{json}}/g, viewpropTypesJSON);
+                            if (viewfunc.length == 0 && viewstate.length == 0) {
+                                viewFile = viewFile.replace(/import PropTypes/g, '\/\/ import PropTypes');
+                            }
                             fs.writeFileSync(`./src/${key}/view/${viewsKey}/${viewsKey}.jsx`, viewFile)
                             let actionstrFile = actionstr.replace(/{{json}}/g, actionJSON)
-                            fs.writeFileSync(`./src/${key}/view/${viewsKey}/aciton.jsx`, actionstrFile)
+                            fs.writeFileSync(`./src/${key}/view/${viewsKey}/action.jsx`, actionstrFile)
                             let mapDispatchToPropsFile = mapDispatchToPropsstr
                             //这里为什么替换失败
                             // console.log(mapDispatchToPropsFile);
@@ -286,7 +316,7 @@ for (const key in json) {
 
                             let mapStateToPropsFile = mapStateToPropsstr.replace(/{{json}}/g, mapStateToPropsJSON);
                             if (viewstate.length != 0) {
-            
+
                             } else {
                                 mapStateToPropsFile = mapStateToPropsFile.replace(/\(state\)/g, '()')
                                 // console.log(mapDispatchToPropsFile);

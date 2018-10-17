@@ -4,6 +4,7 @@ import mapStateToProps from './mapStateToProps.jsx';
 import mapDispatchToProps from './mapDispatchToProps.jsx';
 import { connect } from 'react-redux';
 import Control from './control.jsx';
+import { getFetch } from '../../../../fetch/fetch-Development.jsx';
 
 class {{Key}} extends React.Component {
     constructor(props) {
