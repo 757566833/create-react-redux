@@ -26,8 +26,11 @@ try {
     // console.log(error)
 }
 
-const jsonstr = fs.readFileSync('./create-react-redux.json', 'utf8');
-let json = JSON.parse(jsonstr);
+// const jsonstr = fs.readFileSync('./create-react-redux.json', 'utf8');
+// let json = JSON.parse(jsonstr);
+let json =  require('./create-react-redux-data.js');
+console.log(json)
+
 for (const key in json) {
     if (json.hasOwnProperty(key)) {
         try {
@@ -60,15 +63,16 @@ for (const key in json) {
                 let length = stateArr.length
                 for (let index = 0; index < length; index++) {
                     if (!stateArr[index].name) {
-                        console.error(`${key}.${componentsKey}.state[${index}] must be has name`);
+                        console.error(`${key}.components.${componentsKey}.state[${index}] must be has name`);
                         return
                     }
-                    if (!stateArr[index].default) {
-                        console.error(`${key}.${componentsKey}.state[${index}] must be has default`);
+                    if (stateArr[index].default==undefined) {
+                        console.error(`${key}.components.${componentsKey}.state[${index}] must be has default`);
                         return
                     }
                     keyarr.push(stateArr[index].name)
-                    valuearr.push(stateArr[index].default.replace(/"/g, ''))
+                    // valuearr.push(stateArr[index].default.replace(/"/g, ''))
+                    valuearr.push(stateArr[index].default)
                 }
 
             }
@@ -77,7 +81,8 @@ for (const key in json) {
         for (let index = 0; index < keyarr.length; index++) {
             stateJson[keyarr[index]] = valuearr[index]
         }
-        let statestr = stateBable.replace(/{{json}}/g, JSON.stringify(stateJson).replace(/"/g, ''))
+        let statestr = stateBable.replace(/{{json}}/g, JSON.stringify(stateJson).replace(/"/g, "\'"))
+        // let statestr = stateBable.replace(/{{json}}/g, JSON.stringify(stateJson))
         fs.writeFileSync(`./src/${key}/redux/state.jsx`, statestr)
 
         //store
@@ -118,7 +123,7 @@ for (const key in json) {
                     return
                 }
                 if (!Array.isArray(stateArr)) {
-                    console.error(`${key}.${componentsKey}.state must be Array`);
+                    console.error(`${key}.components.${componentsKey}.state must be Array`);
                     return
                 }
                 let funcArrLenght = funcArr.length;
@@ -130,21 +135,25 @@ for (const key in json) {
                 let mapDispatchToPropsJSON = '';
                 for (let index = 0; index < funcArrLenght; index++) {
                     if (!funcArr[index].method) {
-                        console.error(`${key}.${componentsKey}.func[${index}] must be has method`);
+                        console.error(`${key}.components.${componentsKey}.func[${index}] must be has method`);
                         return
                     }
                     if (!funcArr[index].parameter) {
-                        console.error(`${key}.${componentsKey}.func[${index}] must be has parameter`);
+                        console.error(`${key}.components.${componentsKey}.func[${index}] must be has parameter`);
                         return
                     }
 
                     let actionjsonstr = actionJsonstr.replace(/{{type}}/g, componentsKey)
-                    actionjsonstr = actionjsonstr.replace(/{{func}}/g, funcArr[index].method.replace(/"/g, ''))
-                    actionjsonstr = actionjsonstr.replace(/{{parameter}}/g, funcArr[index].parameter.replace(/"/g, ''))
+                    // actionjsonstr = actionjsonstr.replace(/{{func}}/g, funcArr[index].method.replace(/"/g, ''))
+                    actionjsonstr = actionjsonstr.replace(/{{func}}/g, funcArr[index].method)
+                    // actionjsonstr = actionjsonstr.replace(/{{parameter}}/g, funcArr[index].parameter.replace(/"/g, ''))
+                    actionjsonstr = actionjsonstr.replace(/{{parameter}}/g, funcArr[index].parameter)
                     actionJSON += `${actionjsonstr}` + '\n'
 
-                    let mapDispatchToPropsjsonstr = mapDispatchToPropsJson.replace(/{{method}}/g, funcArr[index].method.replace(/"/g, ''))
-                    mapDispatchToPropsjsonstr = mapDispatchToPropsjsonstr.replace(/{{parameter}}/g, funcArr[index].parameter.replace(/"/g, ''))
+                    // let mapDispatchToPropsjsonstr = mapDispatchToPropsJson.replace(/{{method}}/g, funcArr[index].method.replace(/"/g, ''))
+                    let mapDispatchToPropsjsonstr = mapDispatchToPropsJson.replace(/{{method}}/g, funcArr[index].method)
+                    // mapDispatchToPropsjsonstr = mapDispatchToPropsjsonstr.replace(/{{parameter}}/g, funcArr[index].parameter.replace(/"/g, ''))
+                    mapDispatchToPropsjsonstr = mapDispatchToPropsjsonstr.replace(/{{parameter}}/g, funcArr[index].parameter)
                     mapDispatchToPropsJSON += `${mapDispatchToPropsjsonstr}` + '\n'
                 }
                 let actionstrFile = actionstr.replace(/{{json}}/g, actionJSON)
@@ -165,14 +174,15 @@ for (const key in json) {
                 let mapStateToPropsJSON = '';
                 for (let index = 0; index < stateArrLenght; index++) {
                     if (!stateArr[index].name) {
-                        console.error(`${key}.${componentsKey}.state[${index}] must be has name`);
+                        console.error(`${key}.components.${componentsKey}.state[${index}] must be has name`);
                         return
                     }
-                    if (!stateArr[index].default) {
-                        console.error(`${key}.${componentsKey}.state[${index}] must be has default`);
+                    if (stateArr[index].default==undefined) {
+                        console.error(`${key}.components.${componentsKey}.state[${index}] must be has default`);
                         return
                     }
-                    let jsonstr = mapStateToPropsJson.replace(/{{name}}/g, stateArr[index].name.replace(/"/g, ''))
+                    // let jsonstr = mapStateToPropsJson.replace(/{{name}}/g, stateArr[index].name.replace(/"/g, ''))
+                    let jsonstr = mapStateToPropsJson.replace(/{{name}}/g, stateArr[index].name)
                     mapStateToPropsJSON += `${jsonstr}` + '\n'
                 }
                 let mapStateToPropsFile = mapStateToPropsstr.replace(/{{json}}/g, mapStateToPropsJSON);
@@ -231,7 +241,8 @@ for (const key in json) {
                                     console.error(`views.${viewsKey}.state[${index}] must be has default`);
                                     return
                                 }
-                                let jsonstr = mapStateToPropsJson.replace(/{{name}}/g, viewstate[index].name.replace(/"/g, ''))
+                                // let jsonstr = mapStateToPropsJson.replace(/{{name}}/g, viewstate[index].name.replace(/"/g, ''))
+                                let jsonstr = mapStateToPropsJson.replace(/{{name}}/g, viewstate[index].name)
                                 mapStateToPropsJSON += `${jsonstr}` + '\n'
                             }
                             let actionJSON = '';
@@ -246,12 +257,16 @@ for (const key in json) {
                                     return
                                 }
                                 let actionjsonstr = actionJsonstr.replace(/{{type}}/g, componentsKey)
-                                actionjsonstr = actionjsonstr.replace(/{{func}}/g, viewfunc[index].method.replace(/"/g, ''))
-                                actionjsonstr = actionjsonstr.replace(/{{parameter}}/g, viewfunc[index].parameter.replace(/"/g, ''))
+                                // actionjsonstr = actionjsonstr.replace(/{{func}}/g, viewfunc[index].method.replace(/"/g, ''))
+                                actionjsonstr = actionjsonstr.replace(/{{func}}/g, viewfunc[index].method)
+                                // actionjsonstr = actionjsonstr.replace(/{{parameter}}/g, viewfunc[index].parameter.replace(/"/g, ''))
+                                actionjsonstr = actionjsonstr.replace(/{{parameter}}/g, viewfunc[index].parameter)
                                 actionJSON += `${actionjsonstr}` + '\n'
 
-                                let mapDispatchToPropsjsonstr = mapDispatchToPropsJson.replace(/{{method}}/g, viewfunc[index].method.replace(/"/g, ''))
-                                mapDispatchToPropsjsonstr = mapDispatchToPropsjsonstr.replace(/{{parameter}}/g, viewfunc[index].parameter.replace(/"/g, ''))
+                                // let mapDispatchToPropsjsonstr = mapDispatchToPropsJson.replace(/{{method}}/g, viewfunc[index].method.replace(/"/g, ''))
+                                let mapDispatchToPropsjsonstr = mapDispatchToPropsJson.replace(/{{method}}/g, viewfunc[index].method)
+                                // mapDispatchToPropsjsonstr = mapDispatchToPropsjsonstr.replace(/{{parameter}}/g, viewfunc[index].parameter.replace(/"/g, ''))
+                                mapDispatchToPropsjsonstr = mapDispatchToPropsjsonstr.replace(/{{parameter}}/g, viewfunc[index].parameter)
                                 mapDispatchToPropsJSON += `${mapDispatchToPropsjsonstr}` + '\n'
                             }
                             let viewFile = viewstr.replace(/{{imports}}/g, viewImportsStr).replace(/{{name}}/g, viewsKey);
@@ -288,15 +303,18 @@ for (const key in json) {
 
                     for (let index = 0; index < stateArrLenght; index++) {
                         if (!stateArr[index].type) {
-                            console.error(`${key}.${componentsKey}.state[${index}] must be has type`);
+                            console.error(`${key}.components.${componentsKey}.state[${index}] must be has type`);
                             return
                         }
-                        let jsonstr = BableProTypesJson.replace(/{{name}}/g, stateArr[index].name.replace(/"/g, ''))
-                        jsonstr = jsonstr.replace(/{{type}}/g, stateArr[index].type.replace(/"/g, ''))
+                        // let jsonstr = BableProTypesJson.replace(/{{name}}/g, stateArr[index].name.replace(/"/g, ''))
+                        let jsonstr = BableProTypesJson.replace(/{{name}}/g, stateArr[index].name)
+                        // jsonstr = jsonstr.replace(/{{type}}/g, stateArr[index].type.replace(/"/g, ''))
+                        jsonstr = jsonstr.replace(/{{type}}/g, stateArr[index].type)
                         componentJSON += `${jsonstr}` + '\n'
                     }
                     for (let index = 0; index < funcArrLenght; index++) {
-                        let jsonstr = BableProTypesJson.replace(/{{name}}/g, funcArr[index].method.replace(/"/g, ''))
+                        // let jsonstr = BableProTypesJson.replace(/{{name}}/g, funcArr[index].method.replace(/"/g, ''))
+                        let jsonstr = BableProTypesJson.replace(/{{name}}/g, funcArr[index].method)
                         jsonstr = jsonstr.replace(/{{type}}/g, 'func')
                         componentJSON += `${jsonstr}` + '\n'
                     }
