@@ -21,8 +21,15 @@ module.exports = {
                 'func': []
             },
             'ArticleList': {
-                'state': [],
-                'func': []
+                'state': [{
+                    'name': 'defaultChild',
+                    'type': 'object',
+                    'default': { userName: '',currency:'BCH' }
+                }],
+                'func': [{
+                    'method': 'setDefaultChild',
+                    'parameter': 'defaultChild'
+                }]
             },
             'SearchHeader': {
                 'state': [],
