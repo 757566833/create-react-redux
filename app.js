@@ -1,13 +1,13 @@
 const path = require('path');
 const Koa = require('koa');
-const staticCache  = require('koa-static-cache');
+const serve = require('koa-static');
 const views = require('koa-views');
 const router = require('./routes/route')
 
 const app = new Koa();
 
-app.use(staticCache(path.join(__dirname, 'public'), {
-  maxAge: 365 * 24 * 60 * 60
+app.use(serve(path.join(__dirname, 'public'), {
+  maxage: 365 * 24 * 60 * 60 * 1000
 }));
 app.use(views(__dirname + '/views', {
   extension: 'ejs'
