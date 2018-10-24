@@ -6,6 +6,10 @@ module.exports = {
                     'name': 'defaultChild',
                     'type': 'object',
                     'default': { userName: '',currency:'BCH' }
+                },{
+                    'name': 'aaa',
+                    'type': 'object',
+                    'default': { a: '',b:'BCH' }
                 }],
                 'func': [{
                     'method': 'setDefaultChild',
@@ -58,6 +62,18 @@ module.exports = {
                 'components': [],
                 'state': [],
                 'func': []
+            },
+            'testView':{
+                'components': [],
+                'state': [{
+                    'name': 'defaultChild',
+                    'type': 'object',
+                    'default': { userName: '',currency:'BCH' }
+                }],
+                'func': [{
+                    'method': 'setDefaultChild',
+                    'parameter': 'defaultChild'
+                }]
             }
         }
     }

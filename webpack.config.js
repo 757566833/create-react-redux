@@ -8,7 +8,7 @@ const {
 const path = require('path')
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 let pathsToClean = [
-    'public/js',
+    'public/asset',
 ]
 
 const cmd = process.argv[3];
@@ -47,7 +47,7 @@ module.exports = {
     },
     output: {
         filename: "[name]/[name].[chunkhash].js",
-        path: path.resolve(__dirname, 'public', 'js')
+        path: path.resolve(__dirname, 'public', 'asset')
     },
     optimization: {
         splitChunks: {
@@ -189,7 +189,13 @@ module.exports = {
             },
             {
                 test: /\.(jpg|jpeg|png|svg|gif|woff|woff2|otf|ttf)?$/,
-                loader: ['url-loader?limit=8192']
+                loader: 'url-loader',
+                options: {
+                    limit: 8192,
+                    publicPath: '/asset/',
+                    name: 'img/[name].[hash:7].[ext]'
+                }
+                
             },
         ]
     },
