@@ -1,4 +1,4 @@
-const getFetch = (url, parameter, callback, returnError) => {
+const getFetch = (url, parameter) => {
 
     let parameterStr = '?';
     if (parameter) {
@@ -27,7 +27,7 @@ const getFetch = (url, parameter, callback, returnError) => {
         error.message;
     })
 };
-const postFetch = (url, parameter, callback, returnError) => {
+const postFetch = (url, parameter) => {
 
     
     let startTime = new Date().getTime();
@@ -43,19 +43,10 @@ const postFetch = (url, parameter, callback, returnError) => {
         if (response.status == 200) {
             return response.text();
         } else {
-
-            returnError(response.status);
-            return '';
+            return response.status;
         }
     }, (error) => {
         error.message;
-    }).then((data) => {
-        if (data) {
-            callback(data);
-        } else {
-            console.log();
-        }
-
-    });
+    })
 };
 export { getFetch, postFetch };
