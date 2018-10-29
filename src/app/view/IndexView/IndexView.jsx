@@ -20,6 +20,9 @@ class IndexView extends React.Component{
     constructor(props){
         super(props);
     }
+    componentDidMount=()=>{
+        console.log('test');
+    }
     render(){
         return(
             <div>
