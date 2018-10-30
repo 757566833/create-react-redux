@@ -31,7 +31,7 @@ const postFetch = (url, parameter) => {
 
     
     let startTime = new Date().getTime();
-    fetch(url , {
+    return fetch(url , {
         method: 'post',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'same-origin',
