@@ -1,12 +1,8 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import mapStateToProps from './mapStateToProps.jsx';
-import mapDispatchToProps from './mapDispatchToProps.jsx';
-import { connect } from 'react-redux';
 import Control from './control.jsx';
 import { getFetch } from '../../../../fetch/fetch-Development.jsx';
 
-class {{Key}} extends React.Component {
+export default class {{Key}} extends React.Component {
     constructor(props) {
         super(props);
     }
@@ -39,11 +35,3 @@ class {{Key}} extends React.Component {
         );
     }
 }
-{{Key}}.propTypes = {
-{{json}}
-};
-const redux{{Key}} = connect(
-    mapStateToProps,
-    mapDispatchToProps
-)({{Key}});
-export default redux{{Key}};

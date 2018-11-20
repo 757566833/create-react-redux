@@ -1,0 +1,14 @@
+import {{Key}}_cmpt  from './{{Key}}_cmpt.jsx';
+import PropTypes from 'prop-types';
+import mapStateToProps from './mapStateToProps.jsx';
+import mapDispatchToProps from './mapDispatchToProps.jsx';
+import { connect } from 'react-redux';
+
+{{Key}}_cmpt.propTypes = {
+{{json}}
+};
+const {{Key}} = connect(
+    mapStateToProps,
+    mapDispatchToProps
+)({{Key}}_cmpt);
+export default {{Key}};
