@@ -1,10 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router, Route, browserHistory, IndexRoute } from 'react-router';
-import store from './redux/store.jsx';
+import store from '../app/redux/store.jsx';
 import { Provider } from 'react-redux';
 import { indexRouter } from '../../config/routerConfig.jsx';
-{{imports}}
+import IndexView from '../app/view/IndexView/IndexView.jsx';
+import SearchView from '../app/view/SearchView/SearchView.jsx';
+import AdminView from '../app/view/AdminView/AdminView.jsx';
+
 class App extends React.Component {
     constructor(props) {
         super(props);
@@ -24,7 +27,10 @@ ReactDOM.render(
             
             <Route path={ indexRouter } component={App}>
                 <IndexRoute component={IndexView} />
-{{routers}}
+                <Route path={'IndexView'} component={IndexView} />
+                <Route path={'SearchView'} component={SearchView} />
+                <Route path={'AdminView'} component={AdminView} />
+
                 <Route path={'**'} component={IndexView} />
             </Route>
         </Router>

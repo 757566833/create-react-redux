@@ -1,1 +1,0 @@
-import {{componentsKey}} from './view/{{componentsKey}}/{{componentsKey}}.jsx';

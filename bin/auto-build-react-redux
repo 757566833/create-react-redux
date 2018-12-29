@@ -1,3 +1,246 @@
 #!/usr/bin/env node
+
 'use strict';
-console.log('auto-build-react-redux')
+const fs = require('fs');
+const stat = fs.stat;
+const path = require('path');
+let execSync = require('child_process').execSync;
+
+function getNodeVersion() {
+    let cmd = 'node -v';
+    return parseInt(execSync(cmd).toString().replace(/\S/, ''))
+}
+let version = getNodeVersion();
+if (version) {
+    if (version < 8) {
+        console.log('node version must be >8');
+        return;
+    }
+} else {
+    return;
+}
+const cmd = process.argv[2];
+const parm = process.argv[3];
+if (!cmd) {
+    console.log('Please enter the parameters such as create-Redux-A,build-Redux and so on');
+    return;
+}
+
+// let test = require('./test');
+
+// let t = new test;
+// t.tostring();
+if (cmd == 'init' && parm && parm == '--demo') {
+    let copy = function (src, dst) {
+        // 读取目录中的所有文件/目录
+        fs.readdir(src, function (err, paths) {
+            if (err) {
+                throw err;
+            }
+
+            paths.forEach(function (path) {
+                let _src = src + '/' + path,
+                    _dst = dst + '/' + path,
+                    readable, writable;
+
+                stat(_src, function (err, st) {
+                    if (err) {
+                        throw err;
+                    }
+
+                    // 判断是否为文件
+                    if (st.isFile()) {
+                        // 创建读取流
+                        readable = fs.createReadStream(_src);
+                        // 创建写入流
+                        writable = fs.createWriteStream(_dst);
+                        // 通过管道来传输流
+                        readable.pipe(writable);
+                    }
+                    // 如果是目录则递归调用自身
+                    else if (st.isDirectory()) {
+                        exists(_src, _dst, copy);
+                    }
+                });
+            });
+        });
+    };
+    // 在复制目录前需要判断该目录是否存在，不存在需要先创建目录
+    let exists = function (src, dst, callback) {
+        fs.exists(dst, function (exists) {
+            // 已存在
+            if (exists) {
+                callback(src, dst);
+            }
+            // 不存在
+            else {
+                fs.mkdir(dst, function () {
+                    callback(src, dst);
+                });
+            }
+        });
+    };
+    exists(path.resolve(__dirname, 'demobabel'), path.resolve(), copy);
+    console.log('Please yarn install or npm install');
+    console.log('yarn install');
+    console.log('npm install');
+    return;
+}
+if (cmd == 'init') {
+    const packagefile = fs.readFileSync(path.resolve(__dirname, 'babel', 'package.crr'), 'utf8');
+    fs.writeFileSync(path.resolve('package.json'), packagefile);
+    // 静态目录
+    try {
+        fs.mkdirSync(path.resolve('public'));
+    } catch (error) {
+        // console.log(error)
+    }
+    try {
+        fs.mkdirSync(path.resolve('public', 'fileConfig'));
+    } catch (error) {
+        // console.log(error)
+    }
+    //服务器文件
+    const server = fs.readFileSync(path.resolve(__dirname, 'babel', 'server.crr'), 'utf8');
+    fs.writeFileSync(path.resolve('server.js'), server);
+
+    try {
+        fs.mkdirSync(path.resolve('views'));
+    } catch (error) {
+        // console.log(error)
+    }
+    const appEjs = fs.readFileSync(path.resolve(__dirname, 'babel', 'appEjs.crr'), 'utf8');
+    fs.writeFileSync(path.resolve('views', 'app.ejs'), appEjs);
+    const loginEjs = fs.readFileSync(path.resolve(__dirname, 'babel', 'loginEjs.crr'), 'utf8');
+    fs.writeFileSync(path.resolve('views', 'login.ejs'), loginEjs);
+
+    //webpack
+    const webpack = fs.readFileSync(path.resolve(__dirname, 'babel', 'webpack.config.crr'), 'utf8');
+    fs.writeFileSync(path.resolve('webpack.config.js'), webpack);
+
+    //antd主题包
+    const theme = fs.readFileSync(path.resolve(__dirname, 'babel', 'theme.crr'), 'utf8');
+    fs.writeFileSync(path.resolve('theme.js'), theme);
+
+    //fetch
+    try {
+        fs.mkdirSync(path.resolve('fetch'));
+    } catch (error) {
+        // console.log(error)
+    }
+    const fetchfile = fs.readFileSync(path.resolve(__dirname, 'babel', 'fetch.crr'), 'utf8');
+    fs.writeFileSync(path.resolve('fetch', 'fetch-Development.jsx'), fetchfile);
+
+    // 页面路由配置文件
+    try {
+        fs.mkdirSync(path.resolve('config'));
+    } catch (error) {
+        // console.log(error)
+    }
+    const routerConfig = fs.readFileSync(path.resolve(__dirname, 'babel', 'routerConfig.crr'), 'utf8');
+    fs.writeFileSync(path.resolve('config', 'routerConfig.jsx'), routerConfig);
+
+
+    //创建配置文件
+    const app = fs.readFileSync(path.resolve(__dirname, 'babel', 'reduxapp.crr'), 'utf8');
+    const login = fs.readFileSync(path.resolve(__dirname, 'babel', 'reduxlogin.crr'), 'utf8');
+    const indexfile = fs.readFileSync(path.resolve(__dirname, 'babel', 'reduxindex.crr'), 'utf8');
+
+    const appdata = fs.readFileSync(path.resolve(__dirname, 'babel', 'reduxappdata.crr'), 'utf8');
+    const logindata = fs.readFileSync(path.resolve(__dirname, 'babel', 'reduxlogindata.crr'), 'utf8');
+    try {
+        fs.mkdirSync(path.resolve('redux-data'));
+    } catch (error) {
+        // console.log(error)
+    }
+    try {
+        fs.mkdirSync(path.resolve('redux-data', 'config'));
+    } catch (error) {
+        // console.log(error)
+    }
+    try {
+        fs.mkdirSync(path.resolve('redux-data', 'data'));
+    } catch (error) {
+        // console.log(error)
+    }
+    fs.writeFileSync(path.resolve('redux-data', 'config', 'app.js'), app);
+    fs.writeFileSync(path.resolve('redux-data', 'config', 'login.js'), login);
+    fs.writeFileSync(path.resolve('redux-data', 'config', 'index.js'), indexfile);
+
+    fs.writeFileSync(path.resolve('redux-data', 'data', 'app', 'app.js'), appdata);
+    fs.writeFileSync(path.resolve('redux-data', 'data', 'login', 'login.js'), logindata);
+
+    //eslint
+    try {
+        fs.mkdirSync(path.resolve('src'));
+    } catch (error) {
+        // console.log(error)
+    }
+    const eslintFile = fs.readFileSync(path.resolve(__dirname, 'babel', 'eslintrc.crr'), 'utf8');
+    fs.writeFileSync(path.resolve('src', '.eslintrc.js'), eslintFile);
+
+    console.log('Please yarn install or npm install');
+    console.log('yarn install');
+    console.log('npm install');
+
+    console.warn('If you use it for the first time, you may need to open a new project and run');
+    console.warn('auto-build-react-redux init --demo');
+    return;
+}
+const json = require(path.resolve('redux-data', 'config', 'index.js'));
+const Program = require(path.resolve(__dirname, 'create-react-redux.js'));
+const program = new Program(json);
+try {
+    fs.mkdirSync(path.resolve('src'));
+} catch (error) {
+    // console.log(error)
+}
+
+switch (cmd) {
+    case 'build':
+        program.createStoreState();
+        program.createStoreStore();
+        program.createStoreReducer();
+        program.buildViewRedux();
+        program.buildComponentsRedux();
+        program.buildComponentsProgram();
+        program.buildviewProgram();
+        break;
+    case 'createComponents':
+        program.createStoreState();
+        program.createStoreStore();
+        program.createStoreReducer();
+        program.buildViewRedux();
+        program.buildComponentsRedux();
+        program.buildComponentsProgram();
+        program.buildviewProgram();
+        program.buildComponentsProgram_cmpt();
+        break;
+    case 'createView':
+        program.createStoreState();
+        program.createStoreStore();
+        program.createStoreReducer();
+        program.buildViewRedux();
+        program.buildComponentsRedux();
+        program.buildComponentsProgram();
+        program.buildviewProgram();
+        program.buildviewProgram_cmpt();
+        break;
+    case 'createAll':
+        program.createStoreState();
+        program.createStoreStore();
+        program.createStoreReducer();
+        program.buildViewRedux();
+        program.buildComponentsRedux();
+        program.buildComponentsProgram();
+        program.buildviewProgram();
+        program.createEntry();
+        program.buildComponentsControl()
+        program.buildViewsControl()
+        program.buildComponentsProgram_cmpt();
+        program.buildviewProgram_cmpt();
+        break;
+
+    default:
+        break;
+}

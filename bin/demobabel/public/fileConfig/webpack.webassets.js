@@ -1,0 +1,1 @@
+window.WEBPACK_ASSETS = {"app":{"js":"app/app.01b96f1cb8a1276a0271.js"},"login":{"js":"login/login.6c05ca5e5c6536ff44da.js"},"react":{"js":"react/react.9f1351929ef8623897e6.js"}}
