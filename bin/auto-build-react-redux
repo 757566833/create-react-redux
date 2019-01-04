@@ -163,6 +163,16 @@ if (cmd == 'init') {
     } catch (error) {
         // console.log(error)
     }
+    try {
+        fs.mkdirSync(path.resolve('redux-data', 'data', 'app'));
+    } catch (error) {
+        // console.log(error)
+    }
+    try {
+        fs.mkdirSync(path.resolve('redux-data', 'data', 'login'));
+    } catch (error) {
+        // console.log(error)
+    }
     fs.writeFileSync(path.resolve('redux-data', 'config', 'app.js'), app);
     fs.writeFileSync(path.resolve('redux-data', 'config', 'login.js'), login);
     fs.writeFileSync(path.resolve('redux-data', 'config', 'index.js'), indexfile);
