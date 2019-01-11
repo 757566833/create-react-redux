@@ -1,11 +1,16 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom';
 import { getFetch } from '../../../../fetch/fetch-Development.jsx';
 import Control from  './control';
 export let headerRef;
-export default class Header extends React.Component {
+class Header extends React.Component {
     constructor(props) {
         super(props);
         headerRef=this;
+        this.isMount = true;
+    }
+    componentWillUnmount = () => {
+        this.isMount = false;
     }
     getUsername = () => {
         return getFetch(
@@ -35,3 +40,4 @@ export default class Header extends React.Component {
         );
     }
 }
+export default withRouter(Header);

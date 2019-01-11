@@ -1,10 +1,15 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom';
 import Control from './control.jsx';
 import { getFetch } from '../../../../fetch/fetch-Development.jsx';
 
-export default class SearchHeader extends React.Component {
+class SearchHeader extends React.Component {
     constructor(props) {
         super(props);
+        this.isMount = true;
+    }
+    componentWillUnmount = () => {
+        this.isMount = false;
     }
     helloStart = () => {
         Control.helloControlStart(this);
@@ -35,3 +40,4 @@ export default class SearchHeader extends React.Component {
         );
     }
 }
+export default withRouter(SearchHeader);

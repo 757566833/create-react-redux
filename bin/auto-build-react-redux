@@ -22,7 +22,7 @@ if (version) {
 const cmd = process.argv[2];
 const parm = process.argv[3];
 if (!cmd) {
-    console.log('Please enter the parameters such as create-Redux-A,build-Redux and so on');
+    console.log('Please enter the param such as build,build-Redux and so on');
     return;
 }
 

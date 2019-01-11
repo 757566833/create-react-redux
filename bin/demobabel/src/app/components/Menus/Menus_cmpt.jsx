@@ -1,11 +1,16 @@
 import React from 'react';
 import Control from './control.jsx';
+import { withRouter } from 'react-router-dom';
 import { getFetch } from '../../../../fetch/fetch-Development.jsx';
 export let menusRef;
-export default class Menus extends React.Component {
+class Menus extends React.Component {
     constructor(props) {
         super(props);
         menusRef=this;
+        this.isMount = true;
+    }
+    componentWillUnmount = () => {
+        this.isMount = false;
     }
     getUsername = () => {
         return getFetch(
@@ -35,3 +40,4 @@ export default class Menus extends React.Component {
         );
     }
 }
+export default withRouter(Menus);

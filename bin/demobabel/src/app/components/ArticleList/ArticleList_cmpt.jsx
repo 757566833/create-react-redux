@@ -1,11 +1,16 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom';
 import Control from './control.jsx';
 import { getFetch } from '../../../../fetch/fetch-Development.jsx';
 export let articleListRef;
-export default class ArticleList extends React.Component {
+class ArticleList extends React.Component {
     constructor(props) {
         super(props);
-        articleListRef=this;
+        articleListRef = this;
+        this.isMount = true;
+    }
+    componentWillUnmount = () => {
+        this.isMount = false;
     }
     getMobile = () => {
         return getFetch(
@@ -13,18 +18,18 @@ export default class ArticleList extends React.Component {
             ''
         );
     }
-    setMobile=(mobile)=>{
+    setMobile = (mobile) => {
         this.props.setMobile(mobile);
     }
-    interfaceError=(msg)=>{
+    interfaceError = (msg) => {
         alert(`接口错误，错误信息${msg}`);
     }
-    networkError=(code)=>{
+    networkError = (code) => {
         alert(`网络错误${code}`);
     }
     render() {
         return (
-            <div style={{backgroundColor:'green'}}>
+            <div style={{ backgroundColor: 'green' }}>
                 <div>ArticleList</div>
                 {/* 在配置中这里没有username属性，所以页面会是空的 */}
                 <div>username:{this.props.username}</div>
@@ -35,3 +40,4 @@ export default class ArticleList extends React.Component {
         );
     }
 }
+export default withRouter(ArticleList);
