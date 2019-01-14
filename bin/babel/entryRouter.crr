@@ -1,1 +1,1 @@
-                <Route path={'{{router}}'} component={{{router}}} />
+                <Route path='{{router}}' component={{{router}}} />

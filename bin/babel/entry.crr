@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Router, Route, browserHistory, IndexRoute } from 'react-router';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import store from '../{{key}}/redux/store.jsx';
 import { Provider } from 'react-redux';
 import { indexRouter } from '../../config/routerConfig.jsx';
@@ -20,13 +20,14 @@ class {{className}} extends React.Component {
 //路由自己写，未必每个组件都是分页
 ReactDOM.render(
     <Provider store={store}>
-        <Router history={browserHistory}>
-            
-            <Route path={ indexRouter } component={{{className}}}>
-                <IndexRoute component={IndexView} />
+        <BrowserRouter  basename={indexRouter}>
+            <{{className}}>
+                <Switch>
+                    <Route exact path='/' component={IndexView} />
 {{routers}}
-                <Route path={'**'} component={IndexView} />
-            </Route>
-        </Router>
+                    <Route path='/**' component={IndexView} />
+                </Switch>
+            </{{className}}>
+        </BrowserRouter>
     </Provider>
     , document.getElementById('root'));

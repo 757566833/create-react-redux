@@ -1,37 +1,24 @@
 import React from 'react';
-import Control from './control.jsx';
-import { getFetch } from '../../../../fetch/fetch-Development.jsx';
+import { withRouter } from 'react-router-dom';
+// import Control from './control.jsx';
+// import { getFetch } from '../../../../fetch/fetch-Development.jsx';
 
-export default class {{Key}} extends React.Component {
+export let {{Key}}Ref;
+class {{Key}} extends React.Component {
     constructor(props) {
         super(props);
+        {{Key}}Ref = this;
+        this.isMount = true;
     }
-    helloStart = () => {
-        Control.helloControlStart(this);
-    }
-    test = () => {
-        return getFetch(
-            '/hello',
-            ''
-        );
-    }
-    componentGetResult = (data) => {
-        console.log(data);
-    }
-    wordStart=()=>{
-        Control.word(this);
-    }
-    word = () => {
-        console.log('word');
-    }
-    wordtwo = () => {
-        console.log('wordtwo');
+    componentWillUnmount = () => {
+        this.isMount = false;
     }
     render() {
         return (
-            <div>
+            <div clsasName='{{Key}}'>
                 {{Key}}
             </div>
         );
     }
 }
+export default withRouter({{Key}});

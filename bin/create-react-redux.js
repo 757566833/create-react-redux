@@ -24,7 +24,8 @@ const viewImports = fs.readFileSync(path.resolve(__dirname,'babel','viewImports.
 const controlStr = fs.readFileSync(path.resolve(__dirname,'babel','control.crr'), 'utf8');
 const cmd = process.argv[2];
 if(!cmd){
-    console.log('Please enter the parameters such as create-Redux-A build-Redux and so on')
+    console.log('Please enter the parameters such as create-Redux-A build-Redux and so on');
+    return ;
 }
 // 开始创建
 try {
@@ -59,7 +60,7 @@ class Program {
                         } catch (error) {
                             // console.log(error)
                         }
-                        fs.writeFileSync(`./src/${key}/view/${viewsKey}/control.jsx`, controlStr)
+                        fs.writeFileSync(`./src/${key}/view/${viewsKey}/control.jsx`, controlStr.replace(/{{key}}/g, viewsKey))
                     }
                 }
             }
@@ -367,7 +368,7 @@ class Program {
                         } catch (error) {
                             // console.log(error)
                         }
-                        fs.writeFileSync(`./src/${key}/components/${componentsKey}/control.jsx`, controlStr)
+                        fs.writeFileSync(`./src/${key}/components/${componentsKey}/control.jsx`, controlStr.replace(/{{key}}/g, componentsKey))
                     }
                 }
             }
@@ -645,7 +646,7 @@ class Program {
                                     // console.log(error)
                                 }
                                 imports += entryImports.replace(/{{componentsKey}}/g, viewsKey).replace(/{{key}}/g, key)
-                                routers += entryRouterStr.replace(/{{router}}/g, viewsKey);
+                                routers += entryRouterStr.replace(/{{router}}/g, `/${viewsKey}`);
                             }
                         }
                         //写入入口文件

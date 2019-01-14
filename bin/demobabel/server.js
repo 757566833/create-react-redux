@@ -15,6 +15,16 @@ router.get('/hello', async (ctx) => {
         }
     );
 })
+router.get('/noControl', async (ctx) => {
+    ctx.status = 200;
+    ctx.body = JSON.stringify(
+        {
+            code:0,
+            data:'noControl!',
+            msg:''
+        }
+    );
+})
 router.get('/networkError', async (ctx) => {
     ctx.status = 500;
     ctx.body = 'server500!';
