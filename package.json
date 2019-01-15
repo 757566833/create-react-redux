@@ -1,6 +1,6 @@
 {
   "name": "@boquantools/auto-build-react-redux",
-  "version": "1.0.92",
+  "version": "1.0.93",
   "description": "npm run create-Redux-A",
   "main": "create-react-redux.js",
   "scripts": {
