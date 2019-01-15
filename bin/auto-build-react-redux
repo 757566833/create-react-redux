@@ -299,7 +299,6 @@ if (!cmd) {
             },
         ])
         .then(answers => {
-            console.log(JSON.stringify(answers, null, '  '));
             switch (answers.type) {
                 case 'build': {
                     let json;
