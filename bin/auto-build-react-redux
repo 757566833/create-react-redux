@@ -5,10 +5,12 @@ const fs = require('fs');
 const stat = fs.stat;
 const path = require('path');
 let execSync = require('child_process').execSync;
+var inquirer = require('inquirer');
+
 
 function getNodeVersion() {
     let cmd = 'node -v';
-    return parseInt(execSync(cmd).toString().replace(/\S/, ''))
+    return parseInt(execSync(cmd).toString().replace(/\S/, ''));
 }
 let version = getNodeVersion();
 if (version) {
@@ -21,15 +23,11 @@ if (version) {
 }
 const cmd = process.argv[2];
 const parm = process.argv[3];
-if (!cmd) {
-    console.log('Please enter the param such as build,build-Redux and so on');
-    return;
+try {
+    fs.mkdirSync(path.resolve('src'));
+} catch (error) {
+    // console.log(error)
 }
-
-// let test = require('./test');
-
-// let t = new test;
-// t.tostring();
 if (cmd == 'init' && parm && parm == '--demo') {
     let copy = function (src, dst) {
         // 读取目录中的所有文件/目录
@@ -81,9 +79,9 @@ if (cmd == 'init' && parm && parm == '--demo') {
         });
     };
     exists(path.resolve(__dirname, 'demobabel'), path.resolve(), copy);
-    console.log('Please yarn install or npm install');
-    console.log('yarn install');
-    console.log('npm install');
+    console.log('\x1B[33m%s\x1b[0m:', 'Please yarn install or npm install');
+    console.log('\x1B[36m%s\x1B[0m', 'yarn install');
+    console.log('\x1B[36m%s\x1B[0m', 'npm install');
     return;
 }
 if (cmd == 'init') {
@@ -129,8 +127,9 @@ if (cmd == 'init') {
         // console.log(error)
     }
     const fetchfile = fs.readFileSync(path.resolve(__dirname, 'babel', 'fetch.crr'), 'utf8');
+    const fetchNocfile = fs.readFileSync(path.resolve(__dirname, 'babel', 'fetchNoc.crr'), 'utf8');
     fs.writeFileSync(path.resolve('fetch', 'fetch-Development.jsx'), fetchfile);
-
+    fs.writeFileSync(path.resolve('fetch', 'fetch-NoControl.jsx'), fetchNocfile);
     // 页面路由配置文件
     try {
         fs.mkdirSync(path.resolve('config'));
@@ -189,68 +188,271 @@ if (cmd == 'init') {
     const eslintFile = fs.readFileSync(path.resolve(__dirname, 'babel', 'eslintrc.crr'), 'utf8');
     fs.writeFileSync(path.resolve('src', '.eslintrc.js'), eslintFile);
 
-    console.log('Please yarn install or npm install');
-    console.log('yarn install');
-    console.log('npm install');
+    console.log('\x1B[33m%s\x1b[0m:', 'Please yarn install or npm install');
+    console.log('\x1B[36m%s\x1B[0m', 'yarn install');
+    console.log('\x1B[36m%s\x1B[0m', 'npm install');
 
-    console.warn('If you use it for the first time, you may need to open a new project and run');
-    console.warn('auto-build-react-redux init --demo');
+    console.warn('\x1B[33m%s\x1B[0m', 'If you use it for the first time, you may need to open a new project and run');
+    console.warn('\x1B[36m%s\x1B[0m', 'auto-build-react-redux init --demo');
     return;
 }
-const json = require(path.resolve('redux-data', 'config', 'index.js'));
-const Program = require(path.resolve(__dirname, 'create-react-redux.js'));
-const program = new Program(json);
-try {
-    fs.mkdirSync(path.resolve('src'));
-} catch (error) {
-    // console.log(error)
+
+
+if (!cmd) {
+    inquirer
+        .prompt([
+            {
+                type: 'list',
+                name: 'type',
+                message: 'What do you want to do?',
+                choices: [
+                    'build',
+                    new inquirer.Separator(),
+                    'create HTML',
+                    new inquirer.Separator(),
+                    'create HTML.Components according to redux-data',
+                    'create View according to redux-data',
+                    'create Component according to redux-data',
+                    new inquirer.Separator(),
+                    'create all according to redux-data',
+                    new inquirer.Separator(),
+                ]
+            },
+            {
+                type: 'input',
+                name: 'HTML_name',
+                message: 'HTML name?',
+                when: (answers) => {
+                    return answers.type == 'create HTML';
+                },
+                default: () => {
+                    return 'NoHTMLName';
+                }
+            },
+            {
+                type: 'list',
+                name: 'HTML',
+                message: 'which HTML?',
+                choices: () => {
+                    let entrys = fs.readdirSync(path.resolve('src', 'entry'));
+                    return entrys.map((item) => {
+                        return item.replace(/\.jsx/, '');
+                    });
+                },
+                when: (answers) => {
+                    return answers.type == 'create HTML.Components according to redux-data' || answers.type == 'create View according to redux-data' || answers.type == 'create Component according to redux-data';
+                }
+            },
+            {
+                type: 'list',
+                name: 'view',
+                message: 'which view?',
+                choices: (answers) => {
+                    const file = require(path.resolve('redux-data', 'config', `${answers.HTML}.js`));
+                    let json = file[answers.HTML].views;
+                    let arr = [];
+                    for (const key in json) {
+                        if (json.hasOwnProperty(key)) {
+                            arr.push(key);
+                        }
+                    }
+
+
+                    return arr;
+                },
+                when: (answers) => {
+                    return answers.type == 'create View according to redux-data' && answers.HTML;
+                }
+            },
+            {
+                type: 'list',
+                name: 'component',
+                message: 'which Component?',
+                choices: (answers) => {
+                    const file = require(path.resolve('redux-data', 'config', `${answers.HTML}.js`));
+                    let json = file[answers.HTML].components;
+                    let arr = [];
+                    for (const key in json) {
+                        if (json.hasOwnProperty(key)) {
+                            arr.push(key);
+                        }
+                    }
+                    return arr;
+                },
+                when: (answers) => {
+                    return answers.type == 'create Component according to redux-data' && answers.HTML;
+                }
+            },
+            {
+                type: 'confirm',
+                name: 'confirm',
+                message: 'create will overwrite your program,are you sure?',
+                default: false,
+                when: (answers) => {
+                    return (answers.type == 'create Component according to redux-data' && answers.HTML && answers.component) ||
+                        (answers.type == 'create View according to redux-data' && answers.HTML && answers.view) ||
+                        (answers.type == 'create HTML.Components according to redux-data' && answers.HTML) ||
+                        (answers.type == 'create HTML' && answers.HTML_name) ||
+                        (answers.type == 'create all according to redux-data');
+
+                }
+            },
+        ])
+        .then(answers => {
+            console.log(JSON.stringify(answers, null, '  '));
+            switch (answers.type) {
+                case 'build': {
+                    let json;
+                    try {
+                        json = require(path.resolve('redux-data', 'config', 'index.js'));
+                    } catch (e) {
+                        console.log('\x1B[31m%s\x1B[0m', `${e.message} in redux-data/config/index.js`);
+                        return;
+                    }
+                    const Program = require(path.resolve(__dirname, 'create-react-redux.js'));
+                    const program = new Program(json);
+                    program.createStoreState();
+                    program.createStoreStore();
+                    program.createStoreReducer();
+                    program.buildViewRedux();
+                    program.buildComponentsRedux();
+                    program.buildComponentsProgram();
+                    program.buildviewProgram();
+                    break;
+                }
+                case 'create all according to redux-data': {
+                    if (!answers.confirm) {
+                        return;
+                    }
+                    let json;
+                    try {
+                        json = require(path.resolve('redux-data', 'config', 'index.js'));
+                    } catch (e) {
+                        console.log('\x1B[31m%s\x1B[0m', `${e.message} in redux-data/config/index.js`);
+                        return;
+                    }
+                    const Program = require(path.resolve(__dirname, 'create-react-redux.js'));
+                    const program = new Program(json);
+                    program.createStoreState();
+                    program.createStoreStore();
+                    program.createStoreReducer();
+                    program.buildViewRedux();
+                    program.buildComponentsRedux();
+                    program.buildComponentsProgram();
+                    program.buildviewProgram();
+                    program.createEntry();
+                    program.buildComponentsControl();
+                    program.buildViewsControl();
+                    program.buildComponentsProgram_cmpt();
+                    program.buildviewProgram_cmpt();
+                    break;
+                }
+                case 'create HTML': {
+                    if (!answers.confirm) {
+                        return;
+                    }
+                    const NewFile = require(path.resolve(__dirname, 'new-react-redux.js'));
+
+                    const newFile = new NewFile();
+                    newFile.createHtml(answers.HTML_name);
+                    console.log('\x1B[36m%s\x1B[0m', 'Success, update redux-data and choices \'create HTML.Components according to redux-data\'');
+                    break;
+                }
+                case 'create HTML.Components according to redux-data': {
+                    if (!answers.confirm) {
+                        return;
+                    }
+                    const NewFile = require(path.resolve(__dirname, 'new-react-redux.js'));
+                    const newFile = new NewFile();
+                    const HTMLJSON = require(path.resolve('redux-data', 'config', `${answers.HTML}.js`));
+
+                    newFile.createStoreState(HTMLJSON);
+                    newFile.createStoreStore(HTMLJSON);
+                    newFile.createStoreReducer(HTMLJSON);
+                    newFile.buildViewRedux(HTMLJSON);
+                    newFile.buildComponentsRedux(HTMLJSON);
+                    newFile.buildComponentsProgram(HTMLJSON);
+                    newFile.buildviewProgram(HTMLJSON);
+
+                    newFile.buildComponentsControl(HTMLJSON);
+                    newFile.buildViewsControl(HTMLJSON);
+                    newFile.buildComponentsProgram_cmpt(HTMLJSON);
+                    newFile.buildviewProgram_cmpt(HTMLJSON);
+                    break;
+                }
+                case 'create View according to redux-data': {
+                    if (!answers.confirm) {
+                        return;
+                    }
+                    const NewFile = require(path.resolve(__dirname, 'new-react-redux.js'));
+                    const newFile = new NewFile();
+                    let json = {};
+                    const HTMLJSON = require(path.resolve('redux-data', 'config', `${answers.HTML}.js`));
+                    const ViewJSON = HTMLJSON[answers.HTML].views[answers.view];
+                    json[answers.HTML] = {};
+                    json[answers.HTML].views = {};
+                    json[answers.HTML].views[answers.view] = ViewJSON;
+
+                    const ComponentsJSON = HTMLJSON[answers.HTML].components;
+
+                    let arr = ViewJSON.components;
+                    for (let index = 0; index < arr.length; index++) {
+                        const element = arr[index];
+                        json[answers.HTML].components[element] = ComponentsJSON[element];
+                    }
+
+
+                    newFile.createStoreState(HTMLJSON);
+                    newFile.createStoreStore(HTMLJSON);
+                    newFile.createStoreReducer(HTMLJSON);
+                    newFile.buildViewRedux(HTMLJSON);
+                    newFile.buildComponentsRedux(HTMLJSON);
+                    newFile.buildComponentsProgram(HTMLJSON);
+                    newFile.buildviewProgram(HTMLJSON);
+
+                    newFile.buildComponentsControl(json);
+                    newFile.buildViewsControl(json);
+                    newFile.buildComponentsProgram_cmpt(json);
+                    newFile.buildviewProgram_cmpt(json);
+                    break;
+                }
+                case 'create Component according to redux-data': {
+                    if (!answers.confirm) {
+                        return;
+                    }
+                    const NewFile = require(path.resolve(__dirname, 'new-react-redux.js'));
+                    const newFile = new NewFile();
+                    const HTMLJSON = require(path.resolve('redux-data', 'config', `${answers.HTML}.js`));
+
+                    newFile.createStoreState(HTMLJSON);
+                    newFile.createStoreStore(HTMLJSON);
+                    newFile.createStoreReducer(HTMLJSON);
+                    newFile.buildViewRedux(HTMLJSON);
+                    newFile.buildComponentsRedux(HTMLJSON);
+                    newFile.buildComponentsProgram(HTMLJSON);
+                    newFile.buildviewProgram(HTMLJSON);
+                    let json = {};
+                    json[answers.HTML] = {};
+                    json[answers.HTML].components = {};
+                    json[answers.HTML].components[answers.component] = HTMLJSON[answers.HTML].components[answers.component];
+                    newFile.buildComponentsControl(json);
+                    newFile.buildViewsControl(json);
+                    newFile.buildComponentsProgram_cmpt(json);
+                    newFile.buildviewProgram_cmpt(json);
+                    break;
+                }
+                default:
+                    break;
+            }
+        });
+    return;
 }
 
-switch (cmd) {
-    case 'build':
-        program.createStoreState();
-        program.createStoreStore();
-        program.createStoreReducer();
-        program.buildViewRedux();
-        program.buildComponentsRedux();
-        program.buildComponentsProgram();
-        program.buildviewProgram();
-        break;
-    case 'createComponents':
-        program.createStoreState();
-        program.createStoreStore();
-        program.createStoreReducer();
-        program.buildViewRedux();
-        program.buildComponentsRedux();
-        program.buildComponentsProgram();
-        program.buildviewProgram();
-        program.buildComponentsProgram_cmpt();
-        break;
-    case 'createView':
-        program.createStoreState();
-        program.createStoreStore();
-        program.createStoreReducer();
-        program.buildViewRedux();
-        program.buildComponentsRedux();
-        program.buildComponentsProgram();
-        program.buildviewProgram();
-        program.buildviewProgram_cmpt();
-        break;
-    case 'createAll':
-        program.createStoreState();
-        program.createStoreStore();
-        program.createStoreReducer();
-        program.buildViewRedux();
-        program.buildComponentsRedux();
-        program.buildComponentsProgram();
-        program.buildviewProgram();
-        program.createEntry();
-        program.buildComponentsControl()
-        program.buildViewsControl()
-        program.buildComponentsProgram_cmpt();
-        program.buildviewProgram_cmpt();
-        break;
+// let test = require('./test');
 
-    default:
-        break;
-}
+// let t = new test;
+// t.tostring();
+
+
+
+

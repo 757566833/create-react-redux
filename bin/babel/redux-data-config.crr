@@ -1,0 +1,19 @@
+// const {} = require('../data/{{key}}/{{key}}');
+module.exports = {
+    '{{key}}': {
+        'components': {
+            'component': {
+                'state': [],
+                'func': []
+            },
+        },
+        'views': {
+            'IndexView': {
+                'components': ['component'],
+                'state': [],
+                'func': []
+            }
+        }
+    }
+
+};

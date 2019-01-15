@@ -1,6 +1,6 @@
 {
   "name": "@boquantools/auto-build-react-redux",
-  "version": "1.0.56",
+  "version": "1.0.92",
   "description": "npm run create-Redux-A",
   "main": "create-react-redux.js",
   "scripts": {
@@ -20,6 +20,7 @@
   "bin": "./bin/auto-build-react-redux",
   "dependencies": {
     "ejs": "^2.6.1",
+    "inquirer": "^6.2.1",
     "koa": "^2.5.3",
     "koa-router": "^7.4.0",
     "koa-static": "^5.0.0",

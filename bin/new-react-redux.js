@@ -1,6 +1,5 @@
 const fs = require('fs');
 const path = require('path');
-// path.resolve(__dirname,'babel','action.crr')
 const actionstr = fs.readFileSync(path.resolve(__dirname, 'babel', 'action.crr'), 'utf8');
 const actionJsonstr = fs.readFileSync(path.resolve(__dirname, 'babel', 'actionJson.crr'), 'utf8');
 const Bablestr = fs.readFileSync(path.resolve(__dirname, 'babel', 'Bable.crr'), 'utf8');
@@ -15,26 +14,67 @@ const store = fs.readFileSync(path.resolve(__dirname, 'babel', 'store.crr'), 'ut
 const reducer = fs.readFileSync(path.resolve(__dirname, 'babel', 'reducer.crr'), 'utf8');
 const reducerTypeSwitch = fs.readFileSync(path.resolve(__dirname, 'babel', 'reducerTypeSwitch.crr'), 'utf8');
 const reducerFuncCase = fs.readFileSync(path.resolve(__dirname, 'babel', 'reducerFuncCase.crr'), 'utf8');
-const entrystr = fs.readFileSync(path.resolve(__dirname, 'babel', 'entry.crr'), 'utf8');
-const entryImports = fs.readFileSync(path.resolve(__dirname, 'babel', 'entryImports.crr'), 'utf8');
-const entryRouterStr = fs.readFileSync(path.resolve(__dirname, 'babel', 'entryRouter.crr'), 'utf8');
 const viewstr = fs.readFileSync(path.resolve(__dirname, 'babel', 'view.crr'), 'utf8');
 const viewReduxstr = fs.readFileSync(path.resolve(__dirname, 'babel', 'viewRedux.crr'), 'utf8');
 const viewImports = fs.readFileSync(path.resolve(__dirname, 'babel', 'viewImports.crr'), 'utf8');
 const controlStr = fs.readFileSync(path.resolve(__dirname, 'babel', 'control.crr'), 'utf8');
-// 开始创建
-try {
-    fs.mkdirSync(path.resolve('src'));
-} catch (error) {
-    // console.log(error)
-}
-// let json = require('../create-react-redux-data.js');
-class Program {
-    constructor(json) {
-        this.json = json;
+class NewFile {
+    constructor() {
+
     }
-    buildViewsControl() {
-        let json = this.json;
+    createHtml(name) {
+        try {
+            fs.mkdirSync(path.resolve('redux-data'));
+        } catch (error) {
+            // console.log(error)
+        }
+        try {
+            fs.mkdirSync(path.resolve('redux-data', 'data'));
+        } catch (error) {
+            // console.log(error)
+        }
+        try {
+            fs.mkdirSync(path.resolve('redux-data', 'config'));
+        } catch (error) {
+            // console.log(error)
+        }
+        try {
+            fs.mkdirSync(path.resolve('redux-data', 'data', name.toLowerCase()));
+        } catch (error) {
+            // console.log(error)
+        }
+        fs.writeFileSync(path.resolve('redux-data', 'data', name.toLowerCase(), `${name.toLowerCase()}.js`), 'module.exports = { };');
+        fs.writeFileSync(path.resolve('redux-data', 'config', `${name.toLowerCase()}.js`), 'module.exports = { };');
+
+        let entryArr = fs.readdirSync(path.resolve('redux-data', 'data'));
+        let str = '';
+        let exportsStr = 'module.exports = {';
+        for (let index = 0; index < entryArr.length; index++) {
+            str += `const ${entryArr[index]} = require('./${entryArr[index]}');
+`;
+            exportsStr += ` ...${entryArr[index]},`;
+        }
+        exportsStr += '};';
+        fs.writeFileSync(path.resolve('redux-data', 'config', 'index.js'), `${str}${exportsStr}`);
+
+        const redux_data_config_str = fs.readFileSync(path.resolve(__dirname, 'babel', 'redux-data-config.crr'), 'utf8');
+        fs.writeFileSync(path.resolve('redux-data', 'config', `${name.toLowerCase()}.js`), `${redux_data_config_str.replace(/{{key}}/g,name)}`);
+
+        try {
+            fs.mkdirSync(path.resolve('src'));
+        } catch (error) {
+            // console.log(error)
+        }
+        try {
+            fs.mkdirSync(path.resolve('src', 'entry'));
+        } catch (error) {
+            // console.log(error)
+        }
+        const entrystr = fs.readFileSync(path.resolve(__dirname, 'babel', 'entry.crr'), 'utf8');
+        fs.writeFileSync(path.resolve('src', 'entry', `${name.toLowerCase()}.jsx`), entrystr.replace(/{{key}}/g, name.toLowerCase()).replace(/{{className}}/g, `${name.toLowerCase().slice(0, 1).toUpperCase()}${name.toLowerCase().slice(1)}`).replace(/{{imports}}/g, `import IndexView from '../${name.toLowerCase()}/view/IndexView/IndexView.jsx';`).replace(/{{routers}}/g, ''));
+    }
+
+    buildViewsControl(json) {
         for (const key in json) {
             if (json.hasOwnProperty(key)) {
                 try {
@@ -61,8 +101,7 @@ class Program {
             }
         }
     }
-    buildViewRedux() {
-        let json = this.json;
+    buildViewRedux(json) {
         for (const key in json) {
             if (json.hasOwnProperty(key)) {
                 try {
@@ -178,8 +217,7 @@ class Program {
             }
         }
     }
-    buildviewProgram_cmpt() {
-        let json = this.json;
+    buildviewProgram_cmpt(json) {
         for (const key in json) {
             if (json.hasOwnProperty(key)) {
                 try {
@@ -251,8 +289,7 @@ class Program {
             }
         }
     }
-    buildviewProgram() {
-        let json = this.json;
+    buildviewProgram(json) {
         for (const key in json) {
             if (json.hasOwnProperty(key)) {
                 try {
@@ -322,8 +359,7 @@ class Program {
             }
         }
     }
-    buildComponentsControl() {
-        let json = this.json;
+    buildComponentsControl(json) {
         for (const key in json) {
             if (json.hasOwnProperty(key)) {
                 try {
@@ -350,8 +386,7 @@ class Program {
             }
         }
     }
-    createStoreState() {
-        let json = this.json;
+    createStoreState(json) {
         for (const key in json) {
             if (json.hasOwnProperty(key)) {
                 try {
@@ -420,9 +455,8 @@ class Program {
             }
         }
     }
-    createStoreStore() {
+    createStoreStore(json) {
         //store
-        let json = this.json;
         for (const key in json) {
             if (json.hasOwnProperty(key)) {
                 try {
@@ -439,8 +473,7 @@ class Program {
             }
         }
     }
-    createStoreReducer() {
-        let json = this.json;
+    createStoreReducer(json) {
         // reducer
         for (const key in json) {
             if (json.hasOwnProperty(key)) {
@@ -483,8 +516,7 @@ class Program {
             }
         }
     }
-    buildComponentsRedux() {
-        let json = this.json;
+    buildComponentsRedux(json) {
         for (const key in json) {
             if (json.hasOwnProperty(key)) {
                 try {
@@ -587,51 +619,7 @@ class Program {
             }
         }
     }
-    createEntry() {
-        let json = this.json;
-        try {
-            fs.mkdirSync(path.resolve('src', 'entry'));
-        } catch (error) {
-            // console.log(error)
-        }
-        for (const key in json) {
-            if (json.hasOwnProperty(key)) {
-                try {
-                    fs.mkdirSync(path.resolve('src', key));
-                } catch (error) {
-                    // console.log(error)
-                }
-
-                let components = json[key].components;
-                for (const componentsKey in components) {
-                    if (components.hasOwnProperty(componentsKey)) {
-                        //component
-
-                        //每个view 和入口文件
-                        let views = json[key].views;
-                        let imports = '';
-                        let routers = '';
-                        for (const viewsKey in views) {
-                            if (views.hasOwnProperty(viewsKey)) {
-                                try {
-                                    fs.mkdirSync(path.resolve('src', key, 'view', viewsKey));
-                                } catch (error) {
-                                    // console.log(error)
-                                }
-                                imports += entryImports.replace(/{{componentsKey}}/g, viewsKey).replace(/{{key}}/g, key);
-                                routers += entryRouterStr.replace(/{{router}}/g, viewsKey);
-                            }
-                        }
-                        //写入入口文件
-
-                        fs.writeFileSync(path.resolve('src', 'entry', `${key}.jsx`), entrystr.replace(/{{key}}/g, key).replace(/{{className}}/g, `${key.slice(0, 1).toUpperCase()}${key.slice(1)}`).replace(/{{imports}}/g, imports).replace(/{{routers}}/g, routers));
-                    }
-                }
-            }
-        }
-    }
-    buildComponentsProgram_cmpt() {
-        let json = this.json;
+    buildComponentsProgram_cmpt(json) {
         for (const key in json) {
             if (json.hasOwnProperty(key)) {
                 try {
@@ -700,8 +688,7 @@ class Program {
             }
         }
     }
-    buildComponentsProgram() {
-        let json = this.json;
+    buildComponentsProgram(json) {
         for (const key in json) {
             if (json.hasOwnProperty(key)) {
                 try {
@@ -770,9 +757,5 @@ class Program {
             }
         }
     }
-
-
 }
-
-module.exports = Program;
-
+module.exports = NewFile;

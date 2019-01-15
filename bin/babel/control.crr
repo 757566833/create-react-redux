@@ -1,7 +1,7 @@
 // import { {{Key}}Ref } from './{{Key}}_cmpt';
 export default class Control {
-    // static async demo(component) {
-    //     const result = await component.get();
+    // static async demo() {
+    //     const result = await {{Key}}Ref.get();
     //     console.log(result);
     //     return result;
     // }

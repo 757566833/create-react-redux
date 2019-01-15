@@ -13,6 +13,12 @@ class {{Key}} extends React.Component {
     componentWillUnmount = () => {
         this.isMount = false;
     }
+    interfaceError = (msg) => {
+        alert(`接口错误，错误信息${msg}`);
+    }
+    networkError = (code) => {
+        alert(`网络错误${code}`);
+    }
     render() {
         return (
             <div clsasName='{{Key}}'>
