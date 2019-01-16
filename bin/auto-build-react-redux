@@ -446,7 +446,8 @@ if (!cmd) {
         });
     return;
 }else{
-    console.log('\x1B[33m%s\x1b[0m:', 'Maybe what you want to enter is auto-build-react-redux init ');
+    console.log('\x1B[33m%s\x1b[0m:', 'Maybe what you want to enter is ');
+    console.log('\x1B[36m%s\x1b[0m:', 'auto-build-react-redux init ');
 }
 
 // let test = require('./test');
