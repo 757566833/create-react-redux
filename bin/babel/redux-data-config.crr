@@ -1,7 +1,7 @@
 // const {} = require('../data/{{key}}/{{key}}');
 module.exports = {
     '{{key}}': {
-        'components': {
+        'Components': {
             'component': {
                 'state': [],
                 'func': []
@@ -9,7 +9,7 @@ module.exports = {
         },
         'views': {
             'IndexView': {
-                'components': ['component'],
+                'components': ['Component'],
                 'state': [],
                 'func': []
             }
