@@ -1,8 +1,8 @@
 // const {} = require('../data/{{key}}/{{key}}');
 module.exports = {
     '{{key}}': {
-        'Components': {
-            'component': {
+        'components': {
+            'Component': {
                 'state': [],
                 'func': []
             },
