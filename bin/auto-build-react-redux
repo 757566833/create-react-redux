@@ -200,8 +200,7 @@ if (cmd == 'init') {
 
 if (!cmd) {
     inquirer
-        .prompt([
-            {
+        .prompt([{
                 type: 'list',
                 name: 'type',
                 message: 'What do you want to do?',
@@ -235,6 +234,12 @@ if (!cmd) {
                 message: 'which HTML?',
                 choices: () => {
                     let entrys = fs.readdirSync(path.resolve('src', 'entry'));
+                    for (let index = 0; index < entry.length; index++) {
+                        const element = entry[index];
+                        if (!element.includes('.jsx')) {
+                            entry.splice(index, 1);
+                        }
+                    }
                     return entrys.map((item) => {
                         return item.replace(/\.jsx/, '');
                     });
@@ -300,152 +305,158 @@ if (!cmd) {
         ])
         .then(answers => {
             switch (answers.type) {
-                case 'build': {
-                    let json;
-                    try {
-                        json = require(path.resolve('redux-data', 'config', 'index.js'));
-                    } catch (e) {
-                        console.log('\x1B[31m%s\x1B[0m', `${e.message} in redux-data/config/index.js`);
-                        return;
+                case 'build':
+                    {
+                        let json;
+                        try {
+                            json = require(path.resolve('redux-data', 'config', 'index.js'));
+                        } catch (e) {
+                            console.log('\x1B[31m%s\x1B[0m', `${e.message} in redux-data/config/index.js`);
+                            return;
+                        }
+                        const Program = require(path.resolve(__dirname, 'create-react-redux.js'));
+                        const program = new Program(json);
+                        program.createStoreState();
+                        program.createStoreStore();
+                        program.createStoreReducer();
+                        program.buildViewRedux();
+                        program.buildComponentsRedux();
+                        program.buildComponentsProgram();
+                        program.buildviewProgram();
+                        break;
                     }
-                    const Program = require(path.resolve(__dirname, 'create-react-redux.js'));
-                    const program = new Program(json);
-                    program.createStoreState();
-                    program.createStoreStore();
-                    program.createStoreReducer();
-                    program.buildViewRedux();
-                    program.buildComponentsRedux();
-                    program.buildComponentsProgram();
-                    program.buildviewProgram();
-                    break;
-                }
-                case 'create all according to redux-data': {
-                    if (!answers.confirm) {
-                        return;
+                case 'create all according to redux-data':
+                    {
+                        if (!answers.confirm) {
+                            return;
+                        }
+                        let json;
+                        try {
+                            json = require(path.resolve('redux-data', 'config', 'index.js'));
+                        } catch (e) {
+                            console.log('\x1B[31m%s\x1B[0m', `${e.message} in redux-data/config/index.js`);
+                            return;
+                        }
+                        const Program = require(path.resolve(__dirname, 'create-react-redux.js'));
+                        const program = new Program(json);
+                        program.createStoreState();
+                        program.createStoreStore();
+                        program.createStoreReducer();
+                        program.buildViewRedux();
+                        program.buildComponentsRedux();
+                        program.buildComponentsProgram();
+                        program.buildviewProgram();
+                        program.createEntry();
+                        program.buildComponentsControl();
+                        program.buildViewsControl();
+                        program.buildComponentsProgram_cmpt();
+                        program.buildviewProgram_cmpt();
+                        break;
                     }
-                    let json;
-                    try {
-                        json = require(path.resolve('redux-data', 'config', 'index.js'));
-                    } catch (e) {
-                        console.log('\x1B[31m%s\x1B[0m', `${e.message} in redux-data/config/index.js`);
-                        return;
+                case 'create HTML':
+                    {
+                        if (!answers.confirm) {
+                            return;
+                        }
+                        const NewFile = require(path.resolve(__dirname, 'new-react-redux.js'));
+
+                        const newFile = new NewFile();
+                        newFile.createHtml(answers.HTML_name);
+                        console.log('\x1B[36m%s\x1B[0m', 'Success, update redux-data and choices \'create HTML.Components according to redux-data\'');
+                        break;
                     }
-                    const Program = require(path.resolve(__dirname, 'create-react-redux.js'));
-                    const program = new Program(json);
-                    program.createStoreState();
-                    program.createStoreStore();
-                    program.createStoreReducer();
-                    program.buildViewRedux();
-                    program.buildComponentsRedux();
-                    program.buildComponentsProgram();
-                    program.buildviewProgram();
-                    program.createEntry();
-                    program.buildComponentsControl();
-                    program.buildViewsControl();
-                    program.buildComponentsProgram_cmpt();
-                    program.buildviewProgram_cmpt();
-                    break;
-                }
-                case 'create HTML': {
-                    if (!answers.confirm) {
-                        return;
+                case 'create HTML.Components according to redux-data':
+                    {
+                        if (!answers.confirm) {
+                            return;
+                        }
+                        const NewFile = require(path.resolve(__dirname, 'new-react-redux.js'));
+                        const newFile = new NewFile();
+                        const HTMLJSON = require(path.resolve('redux-data', 'config', `${answers.HTML}.js`));
+
+                        newFile.createStoreState(HTMLJSON);
+                        newFile.createStoreStore(HTMLJSON);
+                        newFile.createStoreReducer(HTMLJSON);
+                        newFile.buildViewRedux(HTMLJSON);
+                        newFile.buildComponentsRedux(HTMLJSON);
+                        newFile.buildComponentsProgram(HTMLJSON);
+                        newFile.buildviewProgram(HTMLJSON);
+
+                        newFile.buildComponentsControl(HTMLJSON);
+                        newFile.buildViewsControl(HTMLJSON);
+                        newFile.buildComponentsProgram_cmpt(HTMLJSON);
+                        newFile.buildviewProgram_cmpt(HTMLJSON);
+                        break;
                     }
-                    const NewFile = require(path.resolve(__dirname, 'new-react-redux.js'));
+                case 'create View according to redux-data':
+                    {
+                        if (!answers.confirm) {
+                            return;
+                        }
+                        const NewFile = require(path.resolve(__dirname, 'new-react-redux.js'));
+                        const newFile = new NewFile();
+                        let json = {};
+                        const HTMLJSON = require(path.resolve('redux-data', 'config', `${answers.HTML}.js`));
+                        const ViewJSON = HTMLJSON[answers.HTML].views[answers.view];
+                        json[answers.HTML] = {};
+                        json[answers.HTML].views = {};
+                        json[answers.HTML].views[answers.view] = ViewJSON;
 
-                    const newFile = new NewFile();
-                    newFile.createHtml(answers.HTML_name);
-                    console.log('\x1B[36m%s\x1B[0m', 'Success, update redux-data and choices \'create HTML.Components according to redux-data\'');
-                    break;
-                }
-                case 'create HTML.Components according to redux-data': {
-                    if (!answers.confirm) {
-                        return;
+                        const ComponentsJSON = HTMLJSON[answers.HTML].components;
+
+                        let arr = ViewJSON.components;
+                        for (let index = 0; index < arr.length; index++) {
+                            const element = arr[index];
+                            json[answers.HTML].components[element] = ComponentsJSON[element];
+                        }
+
+
+                        newFile.createStoreState(HTMLJSON);
+                        newFile.createStoreStore(HTMLJSON);
+                        newFile.createStoreReducer(HTMLJSON);
+                        newFile.buildViewRedux(HTMLJSON);
+                        newFile.buildComponentsRedux(HTMLJSON);
+                        newFile.buildComponentsProgram(HTMLJSON);
+                        newFile.buildviewProgram(HTMLJSON);
+
+                        newFile.buildComponentsControl(json);
+                        newFile.buildViewsControl(json);
+                        newFile.buildComponentsProgram_cmpt(json);
+                        newFile.buildviewProgram_cmpt(json);
+                        break;
                     }
-                    const NewFile = require(path.resolve(__dirname, 'new-react-redux.js'));
-                    const newFile = new NewFile();
-                    const HTMLJSON = require(path.resolve('redux-data', 'config', `${answers.HTML}.js`));
+                case 'create Component according to redux-data':
+                    {
+                        if (!answers.confirm) {
+                            return;
+                        }
+                        const NewFile = require(path.resolve(__dirname, 'new-react-redux.js'));
+                        const newFile = new NewFile();
+                        const HTMLJSON = require(path.resolve('redux-data', 'config', `${answers.HTML}.js`));
 
-                    newFile.createStoreState(HTMLJSON);
-                    newFile.createStoreStore(HTMLJSON);
-                    newFile.createStoreReducer(HTMLJSON);
-                    newFile.buildViewRedux(HTMLJSON);
-                    newFile.buildComponentsRedux(HTMLJSON);
-                    newFile.buildComponentsProgram(HTMLJSON);
-                    newFile.buildviewProgram(HTMLJSON);
-
-                    newFile.buildComponentsControl(HTMLJSON);
-                    newFile.buildViewsControl(HTMLJSON);
-                    newFile.buildComponentsProgram_cmpt(HTMLJSON);
-                    newFile.buildviewProgram_cmpt(HTMLJSON);
-                    break;
-                }
-                case 'create View according to redux-data': {
-                    if (!answers.confirm) {
-                        return;
+                        newFile.createStoreState(HTMLJSON);
+                        newFile.createStoreStore(HTMLJSON);
+                        newFile.createStoreReducer(HTMLJSON);
+                        newFile.buildViewRedux(HTMLJSON);
+                        newFile.buildComponentsRedux(HTMLJSON);
+                        newFile.buildComponentsProgram(HTMLJSON);
+                        newFile.buildviewProgram(HTMLJSON);
+                        let json = {};
+                        json[answers.HTML] = {};
+                        json[answers.HTML].components = {};
+                        json[answers.HTML].components[answers.component] = HTMLJSON[answers.HTML].components[answers.component];
+                        newFile.buildComponentsControl(json);
+                        newFile.buildViewsControl(json);
+                        newFile.buildComponentsProgram_cmpt(json);
+                        newFile.buildviewProgram_cmpt(json);
+                        break;
                     }
-                    const NewFile = require(path.resolve(__dirname, 'new-react-redux.js'));
-                    const newFile = new NewFile();
-                    let json = {};
-                    const HTMLJSON = require(path.resolve('redux-data', 'config', `${answers.HTML}.js`));
-                    const ViewJSON = HTMLJSON[answers.HTML].views[answers.view];
-                    json[answers.HTML] = {};
-                    json[answers.HTML].views = {};
-                    json[answers.HTML].views[answers.view] = ViewJSON;
-
-                    const ComponentsJSON = HTMLJSON[answers.HTML].components;
-
-                    let arr = ViewJSON.components;
-                    for (let index = 0; index < arr.length; index++) {
-                        const element = arr[index];
-                        json[answers.HTML].components[element] = ComponentsJSON[element];
-                    }
-
-
-                    newFile.createStoreState(HTMLJSON);
-                    newFile.createStoreStore(HTMLJSON);
-                    newFile.createStoreReducer(HTMLJSON);
-                    newFile.buildViewRedux(HTMLJSON);
-                    newFile.buildComponentsRedux(HTMLJSON);
-                    newFile.buildComponentsProgram(HTMLJSON);
-                    newFile.buildviewProgram(HTMLJSON);
-
-                    newFile.buildComponentsControl(json);
-                    newFile.buildViewsControl(json);
-                    newFile.buildComponentsProgram_cmpt(json);
-                    newFile.buildviewProgram_cmpt(json);
-                    break;
-                }
-                case 'create Component according to redux-data': {
-                    if (!answers.confirm) {
-                        return;
-                    }
-                    const NewFile = require(path.resolve(__dirname, 'new-react-redux.js'));
-                    const newFile = new NewFile();
-                    const HTMLJSON = require(path.resolve('redux-data', 'config', `${answers.HTML}.js`));
-
-                    newFile.createStoreState(HTMLJSON);
-                    newFile.createStoreStore(HTMLJSON);
-                    newFile.createStoreReducer(HTMLJSON);
-                    newFile.buildViewRedux(HTMLJSON);
-                    newFile.buildComponentsRedux(HTMLJSON);
-                    newFile.buildComponentsProgram(HTMLJSON);
-                    newFile.buildviewProgram(HTMLJSON);
-                    let json = {};
-                    json[answers.HTML] = {};
-                    json[answers.HTML].components = {};
-                    json[answers.HTML].components[answers.component] = HTMLJSON[answers.HTML].components[answers.component];
-                    newFile.buildComponentsControl(json);
-                    newFile.buildViewsControl(json);
-                    newFile.buildComponentsProgram_cmpt(json);
-                    newFile.buildviewProgram_cmpt(json);
-                    break;
-                }
                 default:
                     break;
             }
         });
     return;
-}else{
+} else {
     console.log('\x1B[33m%s\x1b[0m:', 'Maybe what you want to enter is ');
     console.log('\x1B[36m%s\x1b[0m:', 'auto-build-react-redux init ');
 }
@@ -454,7 +465,3 @@ if (!cmd) {
 
 // let t = new test;
 // t.tostring();
-
-
-
-
