@@ -234,10 +234,11 @@ if (!cmd) {
                 message: 'which HTML?',
                 choices: () => {
                     let entrys = fs.readdirSync(path.resolve('src', 'entry'));
-                    for (let index = 0; index < entry.length; index++) {
-                        const element = entry[index];
+                    for (let index = 0; index < entrys.length; index++) {
+                        const element = entrys[index];
                         if (!element.includes('.jsx')) {
-                            entry.splice(index, 1);
+                            entrys.splice(index, 1);
+                            index--
                         }
                     }
                     return entrys.map((item) => {
