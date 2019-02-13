@@ -1,41 +1,36 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
-import { getFetch } from '../../../../fetch/fetch-Development.jsx';
-import Control from  './control';
+import Control from '../../control/components/Header';
 export let headerRef;
 class Header extends React.Component {
     constructor(props) {
         super(props);
-        headerRef=this;
+        headerRef = this;
         this.isMount = true;
     }
     componentWillUnmount = () => {
         this.isMount = false;
     }
-    getUsername = () => {
-        return getFetch(
-            '/hello',
-            ''
-        );
-    }
-    setUsername=(username)=>{
+    setUsername = (username) => {
         this.props.setUsername(username);
     }
-    interfaceError=(msg)=>{
+    interfaceError = (msg) => {
         alert(`接口错误，错误信息${msg}`);
     }
-    networkError=(code)=>{
+    networkError = (code) => {
         alert(`网络错误${code}`);
     }
     render() {
+        const language_type = this.props.language_type;
         return (
-            <div style={{backgroundColor:'red'}}>
+            <div style={{ backgroundColor: 'red' }}>
                 <div>Header</div>
                 <div>username:{this.props.username}</div>
                 <div>mobile:{this.props.mobile}</div>
-                <div><button onClick={()=>this.props.setUsername('header')}>设置username为header</button></div>
-                <div><button onClick={()=>this.props.setMobile('789789')}>设置mobile为789789</button></div>
-                <div><button onClick={()=> Control.getUsername()}>从服务器获取user并写入</button></div>
+                <div><button onClick={() => this.props.setUsername('header')}>设置username为header</button></div>
+                <div><button onClick={() => this.props.setMobile('789789')}>设置mobile为789789</button></div>
+                <div><button onClick={() => Control.getUsername()}>从服务器获取user并写入</button></div>
+                <div><button onClick={() => this.props.setLanguage_type(language_type=='en_us'?'zh_cn':'en_us')}>设置antd全局语言</button></div>
             </div>
         );
     }

@@ -1,3 +1,3 @@
 const indexRouter = '/';
 const loginRouter = '/login';
-export { indexRouter, loginRouter }
+export { indexRouter, loginRouter };

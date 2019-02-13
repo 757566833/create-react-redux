@@ -12,6 +12,11 @@ const reducer = (state, action) => {
                         ...state,
                         mobile: action.mobile
                     };
+                case 'setLanguage_type':
+                    return {
+                        ...state,
+                        language_type: action.language_type
+                    };
                 default:
                     return state;
             }
@@ -37,7 +42,7 @@ const reducer = (state, action) => {
             }
         case 'SearchHeader':
             switch (action.func) {
-                
+
                 default:
                     return state;
             }
@@ -53,17 +58,17 @@ const reducer = (state, action) => {
             }
         case 'SearchView':
             switch (action.func) {
-                
+
                 default:
                     return state;
             }
         case 'AdminView':
             switch (action.func) {
-                
+
                 default:
                     return state;
             }
-        
+
         default:
             return state;
     }

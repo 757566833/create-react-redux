@@ -1,4 +1,5 @@
-const getFetch = (url, parameter,callback,errorback) => {
+const getFetch = (url, parameter) => {
+
     let parameterStr = '?';
     if (parameter) {
         for (const key in parameter) {
@@ -8,46 +9,36 @@ const getFetch = (url, parameter,callback,errorback) => {
         }
     }
     parameterStr = parameterStr.substr(0, parameterStr.length - 1);
-    let startTime = new Date().getTime();
-    fetch(url + parameterStr, {
+    return fetch(url + parameterStr, {
         method: 'get',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'same-origin'
     }).then((response) => {
         console.log(response);
-        let returnTime = new Date().getTime();
-        console.log('time', url, (returnTime - startTime) / 1000, '秒');
         if (response.status == 200) {
-            return response.text()
+            return response.text();
         } else {
-            errorback(response.status);
+            return response.status;
         }
     }, (error) => {
         error.message;
-    }).then((json)=>{
-        callback(json);
-    })
+    });
 };
-const postFetch = (url, parameter,callback,errorback) => {
-    let startTime = new Date().getTime();
-    fetch(url , {
+const postFetch = (url, parameter) => {
+    return fetch(url , {
         method: 'post',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'same-origin',
         body: JSON.stringify(parameter)
     }).then((response) => {
         console.log(response);
-        let returnTime = new Date().getTime();
-        console.log('time', url, (returnTime - startTime) / 1000, '秒');
         if (response.status == 200) {
-            return response.text()
+            return response.text();
         } else {
-            errorback(response.status);
+            return response.status;
         }
     }, (error) => {
         error.message;
-    }).then((json)=>{
-        callback(json);
-    })
+    });
 };
 export { getFetch, postFetch };

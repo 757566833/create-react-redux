@@ -1,35 +1,28 @@
 import React from 'react';
-import Control from './control.jsx';
+import Control from '../../control/components/Menus';
 import { withRouter } from 'react-router-dom';
-import { getFetch } from '../../../../fetch/fetch-Development.jsx';
 export let menusRef;
 class Menus extends React.Component {
     constructor(props) {
         super(props);
-        menusRef=this;
+        menusRef = this;
         this.isMount = true;
     }
     componentWillUnmount = () => {
         this.isMount = false;
     }
-    getUsername = () => {
-        return getFetch(
-            '/interfaceError',
-            ''
-        );
-    }
-    setUsername=(username)=>{
+    setUsername = (username) => {
         this.props.setUsername(username);
     }
-    interfaceError=(msg)=>{
+    interfaceError = (msg) => {
         alert(`接口错误，错误信息${msg}`);
     }
-    networkError=(code)=>{
+    networkError = (code) => {
         alert(`网络错误${code}`);
     }
     render() {
         return (
-            <div style={{backgroundColor:'green'}}>
+            <div style={{ backgroundColor: 'green' }}>
                 <div>Menus</div>
                 <div>username:{this.props.username}</div>
                 {/* 在配置中这里没有mobile属性，所以页面会是空的 */}

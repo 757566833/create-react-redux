@@ -1,5 +1,5 @@
 
-const mapStateToProps = (state) => {
+const mapStateToProps=(state)=> {
     return {
         mobile: state.mobile,
 
