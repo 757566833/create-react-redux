@@ -107,14 +107,46 @@ if (cmd == 'init') {
     } catch (error) {
         // console.log(error)
     }
-    const appEjs = fs.readFileSync(path.resolve(__dirname, 'babel', 'appEjs.crr'), 'utf8');
-    fs.writeFileSync(path.resolve('views', 'app.ejs'), appEjs);
-    const loginEjs = fs.readFileSync(path.resolve(__dirname, 'babel', 'loginEjs.crr'), 'utf8');
-    fs.writeFileSync(path.resolve('views', 'login.ejs'), loginEjs);
+    // const appEjs = fs.readFileSync(path.resolve(__dirname, 'babel', 'appEjs.crr'), 'utf8');
+    // fs.writeFileSync(path.resolve('views', 'app.ejs'), appEjs);
+    // const loginEjs = fs.readFileSync(path.resolve(__dirname, 'babel', 'loginEjs.crr'), 'utf8');
+    // fs.writeFileSync(path.resolve('views', 'login.ejs'), loginEjs);
 
     //webpack
     const webpack = fs.readFileSync(path.resolve(__dirname, 'babel', 'webpack.config.crr'), 'utf8');
     fs.writeFileSync(path.resolve('webpack.config.js'), webpack);
+    try {
+        fs.mkdirSync(path.resolve('webpack'));
+    } catch (error) {
+        // console.log(error)
+    }
+    try {
+        fs.mkdirSync(path.resolve('webpack', 'config'));
+    } catch (error) {
+        // console.log(error)
+    }
+    try {
+        fs.mkdirSync(path.resolve('webpack', 'viewBabel'));
+    } catch (error) {
+        // console.log(error)
+    }
+
+    // webpack config
+    const webpackEntrys = fs.readFileSync(path.resolve(__dirname, 'babel', 'webpackEntrys.crr'), 'utf8');
+    fs.writeFileSync(path.resolve('webpack', 'config', 'entrys.js'), webpackEntrys);
+
+    const webpackOptimization = fs.readFileSync(path.resolve(__dirname, 'babel', 'webpackOptimization.crr'), 'utf8');
+    fs.writeFileSync(path.resolve('webpack', 'config', 'optimization.js'), webpackOptimization);
+
+    const webpackPlugins = fs.readFileSync(path.resolve(__dirname, 'babel', 'webpackPlugins.crr'), 'utf8');
+    fs.writeFileSync(path.resolve('webpack', 'config', 'plugins.js'), webpackPlugins);
+
+    const webpackRules = fs.readFileSync(path.resolve(__dirname, 'babel', 'webpackRules.crr'), 'utf8');
+    fs.writeFileSync(path.resolve('webpack', 'config', 'rules.js'), webpackRules);
+
+    const viewBabel = fs.readFileSync(path.resolve(__dirname, 'babel', 'viewBabel.crr'), 'utf8');
+    fs.writeFileSync(path.resolve('webpack', 'viewBabel', 'babel.ejs'), viewBabel);
+
 
     //antd主题包
     const theme = fs.readFileSync(path.resolve(__dirname, 'babel', 'theme.crr'), 'utf8');
@@ -127,9 +159,7 @@ if (cmd == 'init') {
         // console.log(error)
     }
     const fetchfile = fs.readFileSync(path.resolve(__dirname, 'babel', 'fetch.crr'), 'utf8');
-    const fetchNocfile = fs.readFileSync(path.resolve(__dirname, 'babel', 'fetchNoc.crr'), 'utf8');
     fs.writeFileSync(path.resolve('fetch', 'fetch-Development.jsx'), fetchfile);
-    fs.writeFileSync(path.resolve('fetch', 'fetch-NoControl.jsx'), fetchNocfile);
     // 页面路由配置文件
     try {
         fs.mkdirSync(path.resolve('config'));
