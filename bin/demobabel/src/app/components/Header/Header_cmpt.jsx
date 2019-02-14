@@ -1,6 +1,7 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import Control from '../../control/components/Header';
+
 export let HeaderRef;
 class Header extends React.Component {
     constructor(props) {
@@ -22,6 +23,7 @@ class Header extends React.Component {
     }
     render() {
         const language_type = this.props.language_type;
+        console.log(language_type);
         return (
             <div style={{ backgroundColor: 'red' }}>
                 <div>Header</div>

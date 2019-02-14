@@ -4,6 +4,7 @@ const mapStateToProps = (state) => {
         username: state.username,
         mobile: state.mobile,
         language_type: state.language_type,
+
     };
 };
 

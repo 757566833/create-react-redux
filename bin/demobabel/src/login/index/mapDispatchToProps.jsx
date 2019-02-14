@@ -1,8 +1,8 @@
 import action from './action.jsx';
 
-const mapDispatchToProps=(dispatch)=> {
+const mapDispatchToProps = (dispatch) => {
     return {
-        setMobile: (mobile) => dispatch(action.setMobile(mobile)),
+        setLanguage_type: (language_type) => dispatch(action.setLanguage_type(language_type)),
 
     };
 };

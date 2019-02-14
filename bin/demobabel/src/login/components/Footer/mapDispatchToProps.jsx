@@ -1,9 +1,8 @@
 import action from './action.jsx';
 
-const mapDispatchToProps=(dispatch)=> {
+const mapDispatchToProps = (dispatch) => {
     return {
-        setUsername: (username) => dispatch(action.setUsername(username)),
-        setPassword: (password) => dispatch(action.setPassword(password)),
+        setMobile: (mobile) => dispatch(action.setMobile(mobile)),
 
     };
 };

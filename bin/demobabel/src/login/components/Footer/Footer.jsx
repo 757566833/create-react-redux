@@ -5,8 +5,8 @@ import mapDispatchToProps from './mapDispatchToProps.jsx';
 import { connect } from 'react-redux';
 
 Footer_cmpt.propTypes = {
-    setUsername:PropTypes.func.isRequired,
-    setPassword:PropTypes.func.isRequired,
+    mobile:PropTypes.string.isRequired,
+    setMobile:PropTypes.func.isRequired,
 
 };
 const Footer = connect(

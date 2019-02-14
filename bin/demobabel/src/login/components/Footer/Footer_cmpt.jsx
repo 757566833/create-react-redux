@@ -1,37 +1,29 @@
 import React from 'react';
-import Control from './control.jsx';
-import { getFetch } from '../../../../fetch/fetch.jsx';
+import { withRouter } from 'react-router-dom';
+// import Control from '../../control/components/Footer';
 
-export default class Footer extends React.Component {
+export let FooterRef;
+class Footer extends React.Component {
     constructor(props) {
         super(props);
+        FooterRef = this;
+        this.isMount = true;
     }
-    helloStart = () => {
-        Control.helloControlStart(this);
+    componentWillUnmount = () => {
+        this.isMount = false;
     }
-    test = () => {
-        return getFetch(
-            '/hello',
-            ''
-        );
+    interfaceError = (msg) => {
+        alert(`接口错误，错误信息${msg}`);
     }
-    componentGetResult = (data) => {
-        console.log(data);
-    }
-    wordStart=()=>{
-        Control.word(this);
-    }
-    word = () => {
-        console.log('word');
-    }
-    wordtwo = () => {
-        console.log('wordtwo');
+    networkError = (code) => {
+        alert(`网络错误${code}`);
     }
     render() {
         return (
-            <div>
+            <div className='Footer'>
                 Footer
             </div>
         );
     }
 }
+export default withRouter(Footer);

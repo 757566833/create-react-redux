@@ -1,8 +1,27 @@
 const reducer = (state, action) => {
     switch (action.type) {
+        case 'Index':
+            switch (action.func) {
+                case 'setLanguage_type':
+                    return {
+                        ...state,
+                        language_type: action.language_type
+                    };
+                default:
+                    return state;
+            }
         case 'Header':
             switch (action.func) {
-                
+                case 'setUsername':
+                    return {
+                        ...state,
+                        username: action.username
+                    };
+                case 'setMobile':
+                    return {
+                        ...state,
+                        mobile: action.mobile
+                    };
                 default:
                     return state;
             }
@@ -18,15 +37,10 @@ const reducer = (state, action) => {
             }
         case 'Footer':
             switch (action.func) {
-                case 'setUsername':
+                case 'setMobile':
                     return {
                         ...state,
-                        username: action.username
-                    };
-                case 'setPassword':
-                    return {
-                        ...state,
-                        password: action.password
+                        mobile: action.mobile
                     };
                 default:
                     return state;

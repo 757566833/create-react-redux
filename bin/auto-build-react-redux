@@ -335,7 +335,6 @@ if (!cmd) {
             },
         ])
         .then(answers => {
-            console.log(answers);
             switch (answers.type) {
                 case 'build':
                     {
@@ -406,7 +405,6 @@ if (!cmd) {
                         if (!answers.confirm) {
                             return;
                         }
-                        console.log('js');
                         const NewFile = require(path.resolve(__dirname, 'new-react-redux.js'));
                         const newFile = new NewFile();
                         const HTMLJSON = require(path.resolve('redux-data', 'config', `${answers.HTML}.js`));

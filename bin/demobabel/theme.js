@@ -1,5 +1,5 @@
 var theme = {
-    "primary-color": "#23272c",
+    //"primary-color": "#23272c",
     // "brand-primary": "#23272c",
     // "brand-primary-tap":"#23272c",
     // "input-bg":"#f5f5f5",

@@ -5,6 +5,7 @@ import mapDispatchToProps from './mapDispatchToProps.jsx';
 import { connect } from 'react-redux';
 
 Content_cmpt.propTypes = {
+    username:PropTypes.string.isRequired,
     setUsername:PropTypes.func.isRequired,
 
 };

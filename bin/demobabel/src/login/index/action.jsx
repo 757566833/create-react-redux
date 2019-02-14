@@ -1,7 +1,7 @@
 
 const action = {
-    setMobile: (mobile) => {
-        return { type: 'ArticleList', func: 'setMobile', mobile: mobile };
+    setLanguage_type: (language_type) => {
+        return { type: 'Index', func: 'setLanguage_type', language_type: language_type };
     },
 
 };

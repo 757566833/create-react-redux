@@ -1,29 +1,22 @@
 {
-  "name": "@boquantools/auto-build-react-redux",
-  "version": "1.1.33",
+  "name": "auto-build-react-redux",
+  "version": "0.0.1",
   "description": "npm run create-Redux-A",
   "main": "create-react-redux.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "create-Redux-C": "node ./create-react-redux.js createComponents",
-    "create-Redux-A": "node ./create-react-redux.js createAll",
-    "create-Redux-V": "node ./create-react-redux.js createView",
-    "build-Redux": "node ./create-react-redux.js",
-    "pm2": "pm2 start app.js",
-    "pm2List": "pm2 list",
-    "pm2Stop": "pm2 delete app",
     "dev": "webpack --mode development",
     "build": "webpack --mode production"
   },
-  "author": "赵宏健 <757566833@qq.com>",
+  "author": "dazan <757566833@qq.com>",
   "license": "MIT",
   "bin": "./bin/auto-build-react-redux",
   "dependencies": {
     "inquirer": "^6.2.1"
   },
-  "repository": "git+https://github.com/757566833/create-react-redux.git",
+  "repository": "git+https://github.com/757566833/auto-build-react-redux.git",
   "bugs": {
-    "url": "https://github.com/757566833/create-react-redux/issues"
+    "url": "https://github.com/757566833/auto-build-react-redux/issues"
   },
-  "homepage": "https://github.com/757566833/create-react-redux#readme"
+  "homepage": "https://github.com/757566833/auto-build-react-redux#readme"
 }

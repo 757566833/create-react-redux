@@ -1,6 +1,7 @@
 import React from 'react';
-import Control from '../../control/components/Menus';
 import { withRouter } from 'react-router-dom';
+import Control from '../../control/components/Menus';
+
 export let MenusRef;
 class Menus extends React.Component {
     constructor(props) {

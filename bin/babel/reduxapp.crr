@@ -14,7 +14,7 @@ module.exports = {
         },
         'components': {
             'Header': {
-                'state': [usernameState, mobileState],
+                'state': [usernameState, mobileState, language_typeState],
                 'func': [setUsername, setMobile, setLanguage_type]
             },
             'Menus': {

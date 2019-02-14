@@ -1,5 +1,5 @@
 
-const mapStateToProps=()=> {
+const mapStateToProps = () => {
     return {
 
     };

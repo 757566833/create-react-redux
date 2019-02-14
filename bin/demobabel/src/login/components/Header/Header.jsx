@@ -6,7 +6,9 @@ import { connect } from 'react-redux';
 
 Header_cmpt.propTypes = {
     username:PropTypes.string.isRequired,
-    password:PropTypes.string.isRequired,
+    mobile:PropTypes.string.isRequired,
+    setUsername:PropTypes.func.isRequired,
+    setMobile:PropTypes.func.isRequired,
 
 };
 const Header = connect(

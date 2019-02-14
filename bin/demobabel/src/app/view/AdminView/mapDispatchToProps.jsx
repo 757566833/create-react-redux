@@ -1,6 +1,6 @@
 
 
-const mapDispatchToProps=()=> {
+const mapDispatchToProps = () => {
     return {
 
     };
