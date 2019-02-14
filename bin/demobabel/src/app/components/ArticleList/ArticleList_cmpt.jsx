@@ -34,11 +34,11 @@ function disabledRangeTime(_, type) {
         disabledSeconds: () => [55, 56],
     };
 }
-export let articleListRef;
+export let ArticleListRef;
 class ArticleList extends React.Component {
     constructor(props) {
         super(props);
-        articleListRef = this;
+        ArticleListRef = this;
         this.isMount = true;
     }
     componentWillUnmount = () => {

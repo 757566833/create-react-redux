@@ -1,11 +1,11 @@
 import React from 'react';
 import Control from '../../control/components/Menus';
 import { withRouter } from 'react-router-dom';
-export let menusRef;
+export let MenusRef;
 class Menus extends React.Component {
     constructor(props) {
         super(props);
-        menusRef = this;
+        MenusRef = this;
         this.isMount = true;
     }
     componentWillUnmount = () => {
@@ -27,7 +27,7 @@ class Menus extends React.Component {
                 <div>username:{this.props.username}</div>
                 {/* 在配置中这里没有mobile属性，所以页面会是空的 */}
                 <div>mobile:{this.props.mobile}</div>
-                <div><button onClick={() => this.props.setUsername('menus')}>设置username为menus</button></div>
+                <div><button onClick={() => this.props.setUsername('Menus')}>设置username为Menus</button></div>
                 <div><button onClick={() => Control.getUsername()}>获取接口错误的信息</button></div>
             </div>
         );

@@ -1,5 +1,5 @@
 import React from 'react';
-
+// import Control from '../../control/{{type}}/{{name}}';
 {{imports}}
 export let {{name}}Ref;
 export default class {{name}} extends React.Component{

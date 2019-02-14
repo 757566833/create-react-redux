@@ -159,7 +159,7 @@ if (cmd == 'init') {
         // console.log(error)
     }
     const fetchfile = fs.readFileSync(path.resolve(__dirname, 'babel', 'fetch.crr'), 'utf8');
-    fs.writeFileSync(path.resolve('fetch', 'fetch-Development.jsx'), fetchfile);
+    fs.writeFileSync(path.resolve('fetch', 'fetch.jsx'), fetchfile);
     // 页面路由配置文件
     try {
         fs.mkdirSync(path.resolve('config'));
@@ -347,6 +347,7 @@ if (!cmd) {
                         }
                         const Program = require(path.resolve(__dirname, 'create-react-redux.js'));
                         const program = new Program(json);
+                        program.buildIndexRedux();
                         program.createStoreState();
                         program.createStoreStore();
                         program.createStoreReducer();
@@ -370,6 +371,9 @@ if (!cmd) {
                         }
                         const Program = require(path.resolve(__dirname, 'create-react-redux.js'));
                         const program = new Program(json);
+                        program.createIndex();
+                        program.createModel();
+                        program.buildIndexRedux();
                         program.createStoreState();
                         program.createStoreStore();
                         program.createStoreReducer();

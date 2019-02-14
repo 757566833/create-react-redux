@@ -1,4 +1,4 @@
-import { articleListRef } from '../../components/ArticleList/ArticleList_cmpt';
+import { ArticleListRef } from '../../components/ArticleList/ArticleList_cmpt';
 import networkErrorModel from '../../model/networkError';
 export default class Control {
     static async getMobile() {
@@ -6,12 +6,12 @@ export default class Control {
         if (typeof result !== 'number') {
             let data = eval('(' + result + ')');
             if (data.code == 0) {
-                articleListRef.setUsername(data.data);
+                ArticleListRef.setUsername(data.data);
             } else {
-                articleListRef.interfaceError(data.msg);
+                ArticleListRef.interfaceError(data.msg);
             }
         } else {
-            articleListRef.networkError(result);
+            ArticleListRef.networkError(result);
 
         }
     }

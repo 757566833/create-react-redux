@@ -1,7 +1,6 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
-// import Control from './control.jsx';
-// import { getFetch } from '../../../../fetch/fetch-Development.jsx';
+// import Control from '../../control/{{type}}/{{Key}}';
 
 export let {{Key}}Ref;
 class {{Key}} extends React.Component {

@@ -1,6 +1,6 @@
 {{import}}
 
-const mapDispatchToProps=(dispatch)=> {
+const mapDispatchToProps = (dispatch) => {
     return {
 {{json}}
     };

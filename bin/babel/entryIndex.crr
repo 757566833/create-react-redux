@@ -1,0 +1,33 @@
+import React from 'react';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import store from '../redux/store.jsx';
+import { Provider, connect } from 'react-redux';
+import mapStateToProps from './mapStateToProps.jsx';
+import mapDispatchToProps from './mapDispatchToProps.jsx';
+import { indexRouter } from '../../../config/routerConfig';
+{{imports}}
+
+class {{HeightKey}}Router extends React.Component {
+    constructor(props) {
+        super(props);
+    }
+    render() {
+        return (
+            <Switch>
+                <Route exact path='/' component={IndexView} />
+{{routers}}
+                <Route path='/**' component={IndexView} />
+            </Switch>
+        );
+    }
+}
+const {{HeightKey}}Redux = connect(
+    mapStateToProps,
+    mapDispatchToProps
+)({{HeightKey}}Router);
+const {{HeightKey}} = () => <Provider store={store}>
+    <BrowserRouter basename={indexRouter}>
+        <{{HeightKey}}Redux />
+    </BrowserRouter>
+</Provider>;
+export default {{HeightKey}};

@@ -1,8 +1,17 @@
-// import { {{Key}}Ref } from './{{Key}}_cmpt';
+// import { {{Key}}Ref } from '../../{{type}}/{{Key}}/{{Key}}_cmpt';
+// import model from '../../model/model';
 export default class Control {
     // static async demo() {
-    //     const result = await {{Key}}Ref.get();
-    //     console.log(result);
-    //     return result;
+    //     const result = await model();
+    //     if (typeof result !== 'number') {
+    //            let data = eval('(' + result + ')');
+    //           if (data.code == 0) {
+    //                {{Key}}Ref.setfunc(data.data);
+    //            } else {
+    //                {{Key}}Ref.interfaceError(data.msg);
+    //            }
+    //        } else {
+    //            {{Key}}Ref.networkError(result);
+    //        }
     // }
 }

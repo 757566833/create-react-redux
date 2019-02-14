@@ -1,4 +1,4 @@
-import { menusRef } from '../../components/Menus/Menus_cmpt';
+import { MenusRef } from '../../components/Menus/Menus_cmpt';
 import interfaceErrorModel from '../../model/interfaceError';
 export default class Control {
     static async getUsername() {
@@ -8,10 +8,10 @@ export default class Control {
             if (data.code == 0) {
                 // menusRef.setUsername(data.data);
             } else {
-                menusRef.interfaceError(data.msg);
+                MenusRef.interfaceError(data.msg);
             }
         } else {
-            menusRef.networkError(result);
+            MenusRef.networkError(result);
 
         }
     }

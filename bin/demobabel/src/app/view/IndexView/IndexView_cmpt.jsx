@@ -3,21 +3,22 @@ import React from 'react';
 import Header from '../../components/Header/Header.jsx';
 import Menus from '../../components/Menus/Menus.jsx';
 import ArticleList from '../../components/ArticleList/ArticleList.jsx';
-
-export default class IndexView extends React.Component{
-    constructor(props){
+export let IndexViewRef;
+export default class IndexView extends React.Component {
+    constructor(props) {
         super(props);
         this.isMount = true;
+        IndexViewRef = this;
     }
     componentWillUnmount = () => {
         this.isMount = false;
     }
-    render(){
-        return(
+    render() {
+        return (
             <div>
-                <Header/>
-                <Menus/>
-                <ArticleList/>
+                <Header />
+                <Menus />
+                <ArticleList />
             </div>
         );
     }

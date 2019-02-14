@@ -1,4 +1,4 @@
-import { headerRef } from '../../components/Header/Header_cmpt';
+import { HeaderRef } from '../../components/Header/Header_cmpt';
 import getUsernameModel from '../../model/getUsername';
 export default class Control {
     static async getUsername() {
@@ -6,12 +6,12 @@ export default class Control {
         if (typeof result !== 'number') {
             let data = eval('(' + result + ')');
             if (data.code == 0) {
-                headerRef.setUsername(data.data);
+                HeaderRef.setUsername(data.data);
             } else {
-                headerRef.interfaceError(data.msg);
+                HeaderRef.interfaceError(data.msg);
             }
         } else {
-            headerRef.networkError(result);
+            HeaderRef.networkError(result);
 
         }
     }

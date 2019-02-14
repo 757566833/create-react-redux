@@ -4,12 +4,30 @@ const serve = require('koa-static');
 const views = require('koa-views');
 const Router = require('koa-router');
 const router = new Router();
-router.get('/test', async (ctx) => {
-    ctx.body = '<div>test</div>';
-})
+
 router.get('/hello', async (ctx) => {
+    ctx.status = 200;
+    ctx.body = JSON.stringify(
+        {
+            code:0,
+            data:'serverHello!',
+            msg:''
+        }
+    );
+})
+router.get('/networkError', async (ctx) => {
     ctx.status = 500;
-    ctx.body = 'serverHello!';
+    ctx.body = 'server500!';
+})
+router.get('/interfaceError', async (ctx) => {
+    ctx.status = 200;
+    ctx.body = JSON.stringify(
+        {
+            code:-1,
+            data:'',
+            msg:'interfaceError'
+        }
+    );
 })
 router.get('/login', async (ctx) => {
     await ctx.render('login')

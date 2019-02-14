@@ -20,5 +20,16 @@ const setMobile = {
     'parameter': mobile
 }
 
+const language_type = 'language_type';
+const language_typeState = {
+    'name': language_type,
+    'type': 'string',
+    'default': 'zh_cn'
+};
+const setLanguage_type = {
+    'method': 'setLanguage_type',
+    'parameter': language_type
+};
 
-module.exports={usernameState,setUsername,mobileState,setMobile}
+
+module.exports = { usernameState, setUsername, mobileState, setMobile,language_typeState,setLanguage_type };
