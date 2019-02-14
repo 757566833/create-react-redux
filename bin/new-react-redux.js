@@ -14,10 +14,15 @@ const store = fs.readFileSync(path.resolve(__dirname, 'babel', 'store.crr'), 'ut
 const reducer = fs.readFileSync(path.resolve(__dirname, 'babel', 'reducer.crr'), 'utf8');
 const reducerTypeSwitch = fs.readFileSync(path.resolve(__dirname, 'babel', 'reducerTypeSwitch.crr'), 'utf8');
 const reducerFuncCase = fs.readFileSync(path.resolve(__dirname, 'babel', 'reducerFuncCase.crr'), 'utf8');
+const entrystr = fs.readFileSync(path.resolve(__dirname, 'babel', 'entry.crr'), 'utf8');
+const entryImports = fs.readFileSync(path.resolve(__dirname, 'babel', 'entryImports.crr'), 'utf8');
+const entryRouterStr = fs.readFileSync(path.resolve(__dirname, 'babel', 'entryRouter.crr'), 'utf8');
 const viewstr = fs.readFileSync(path.resolve(__dirname, 'babel', 'view.crr'), 'utf8');
 const viewReduxstr = fs.readFileSync(path.resolve(__dirname, 'babel', 'viewRedux.crr'), 'utf8');
 const viewImports = fs.readFileSync(path.resolve(__dirname, 'babel', 'viewImports.crr'), 'utf8');
 const controlStr = fs.readFileSync(path.resolve(__dirname, 'babel', 'control.crr'), 'utf8');
+const entryIndexStr = fs.readFileSync(path.resolve(__dirname, 'babel', 'entryIndex.crr'), 'utf8');
+const modelstr = fs.readFileSync(path.resolve(__dirname, 'babel', 'model.crr'), 'utf8');
 class NewFile {
     constructor() {
 
@@ -70,8 +75,125 @@ class NewFile {
         } catch (error) {
             // console.log(error)
         }
-        const entrystr = fs.readFileSync(path.resolve(__dirname, 'babel', 'entry.crr'), 'utf8');
-        fs.writeFileSync(path.resolve('src', 'entry', `${name.toLowerCase()}.jsx`), entrystr.replace(/{{key}}/g, name.toLowerCase()).replace(/{{className}}/g, `${name.toLowerCase().slice(0, 1).toUpperCase()}${name.toLowerCase().slice(1)}`).replace(/{{imports}}/g, `import IndexView from '../${name.toLowerCase()}/view/IndexView/IndexView.jsx';`).replace(/{{routers}}/g, ''));
+
+
+        fs.writeFileSync(path.resolve('src', 'entry', `${name}.jsx`), entrystr.replace(/{{key}}/g, name).replace(/{{HeightKey}}/g, `${name.slice(0, 1).toUpperCase()}${name.slice(1)}`));
+        // try {
+        //     fs.mkdirSync(path.resolve('src', name));
+        // } catch (error) {
+        //     // console.log(error)
+        // }
+        // try {
+        //     fs.mkdirSync(path.resolve('src', name, 'index'));
+        // } catch (error) {
+        //     // console.log(error)
+        // }
+    }
+    buildIndexRedux(json) {
+        for (const key in json) {
+            if (json.hasOwnProperty(key)) {
+                try {
+                    fs.mkdirSync(path.resolve('src', key));
+
+                } catch (error) {
+                    // console.log(error)
+                }
+                try {
+                    fs.mkdirSync(path.resolve('src', key, 'index'));
+                } catch (error) {
+                    // console.log(error)
+                }
+                let index = json[key].index;
+                // let imports = '';
+                // let routers = '';
+                let indexstate = index.state;
+                let indexfunc = index.func;
+                if (!Array.isArray(indexstate)) {
+                    console.error(`index.state must be Array`);
+                    return;
+                }
+                if (!Array.isArray(indexfunc)) {
+                    console.error(`index.func must be Array`);
+                    return;
+                }
+                let mapStateToPropsJSON = '';
+
+                for (let index = 0; index < indexstate.length; index++) {
+                    if (!indexstate[index].name) {
+                        console.error(`index.state[${index}] must be has name`);
+                        return;
+                    }
+                    if (!indexstate[index].default) {
+                        console.error(`index.state[${index}] must be has default`);
+                        return;
+                    }
+                    let jsonstr = mapStateToPropsJson.replace(/{{name}}/g, indexstate[index].name);
+                    mapStateToPropsJSON += `${jsonstr}` + '\n';
+
+                    if (!indexstate[index].type) {
+                        console.error(`${key}.components.index.state[${index}] must be has type`);
+                        return;
+                    }
+                    // let jsonstr = BableProTypesJson.replace(/{{name}}/g, stateArr[index].name.replace(/"/g, ''))
+                    let jsonpropTypesstr = BableProTypesJson.replace(/{{name}}/g, indexstate[index].name);
+                    // jsonstr = jsonstr.replace(/{{type}}/g, stateArr[index].type.replace(/"/g, ''))
+                    jsonpropTypesstr = jsonpropTypesstr.replace(/{{type}}/g, indexstate[index].type);
+                }
+                let actionJSON = '';
+                let mapDispatchToPropsJSON = '';
+                for (let index = 0; index < indexfunc.length; index++) {
+                    if (!indexfunc[index].method) {
+                        console.error(`index.func[${index}] must be has method`);
+                        return;
+                    }
+                    if (!indexfunc[index].parameter) {
+                        console.error(`index.func[${index}] must be has parameter`);
+                        return;
+                    }
+                    let actionjsonstr = actionJsonstr.replace(/{{type}}/g, 'Index');
+                    // actionjsonstr = actionjsonstr.replace(/{{func}}/g, indexfunc[index].method.replace(/"/g, ''))
+                    actionjsonstr = actionjsonstr.replace(/{{func}}/g, indexfunc[index].method);
+                    // actionjsonstr = actionjsonstr.replace(/{{parameter}}/g, indexfunc[index].parameter.replace(/"/g, ''))
+                    actionjsonstr = actionjsonstr.replace(/{{parameter}}/g, indexfunc[index].parameter);
+                    actionJSON += `${actionjsonstr}` + '\n';
+
+                    // let mapDispatchToPropsjsonstr = mapDispatchToPropsJson.replace(/{{method}}/g, indexfunc[index].method.replace(/"/g, ''))
+                    let mapDispatchToPropsjsonstr = mapDispatchToPropsJson.replace(/{{method}}/g, indexfunc[index].method);
+                    // mapDispatchToPropsjsonstr = mapDispatchToPropsjsonstr.replace(/{{parameter}}/g, indexfunc[index].parameter.replace(/"/g, ''))
+                    mapDispatchToPropsjsonstr = mapDispatchToPropsjsonstr.replace(/{{parameter}}/g, indexfunc[index].parameter);
+                    mapDispatchToPropsJSON += `${mapDispatchToPropsjsonstr}` + '\n';
+
+
+                    let jsonstr = BableProTypesJson.replace(/{{name}}/g, indexfunc[index].method);
+                    jsonstr = jsonstr.replace(/{{type}}/g, 'func');
+                }
+                // let viewFile = viewstr.replace(/{{imports}}/g, viewImportsStr).replace(/{{name}}/g, viewsKey);
+                // viewFile = viewFile.replace(/{{json}}/g, viewpropTypesJSON);
+                // if (indexfunc.length == 0 && indexstate.length == 0) {
+                //     viewFile = viewFile.replace(/import PropTypes/g, '\/\/ import PropTypes');
+                // }
+                // fs.writeFileSync(`./src/${key}/view/${viewsKey}/${viewsKey}.jsx`, viewFile)
+                let actionstrFile = actionstr.replace(/{{json}}/g, actionJSON);
+                fs.writeFileSync(path.resolve('src', key, 'index', 'action.jsx'), actionstrFile);
+                let mapDispatchToPropsFile = mapDispatchToPropsstr;
+                //这里为什么替换失败
+                // console.log(mapDispatchToPropsFile);
+                if (indexfunc.length != 0) {
+                    mapDispatchToPropsFile = mapDispatchToPropsstr.replace(/{{import}}/g, 'import action from \'./action.jsx\';');
+                } else {
+                    mapDispatchToPropsFile = mapDispatchToPropsstr.replace(/{{import}}/g, '').replace(/dispatch/g, '');
+                }
+                mapDispatchToPropsFile = mapDispatchToPropsFile.replace(/{{json}}/g, mapDispatchToPropsJSON);
+                fs.writeFileSync(`./src/${key}/index/mapDispatchToProps.jsx`, mapDispatchToPropsFile);
+
+                let mapStateToPropsFile = mapStateToPropsstr.replace(/{{json}}/g, mapStateToPropsJSON);
+                if (indexstate.length == 0) {
+                    mapStateToPropsFile = mapStateToPropsFile.replace(/\(state\)/g, '()');
+                }
+
+                fs.writeFileSync(path.resolve('src', key, 'index', 'mapStateToProps.jsx'), mapStateToPropsFile);
+            }
+        }
     }
 
     buildViewsControl(json) {
@@ -83,19 +205,19 @@ class NewFile {
                     // console.log(error)
                 }
                 try {
-                    fs.mkdirSync(path.resolve('src', key, 'view'));
+                    fs.mkdirSync(path.resolve('src', key, 'control'));
+                } catch (error) {
+                    // console.log(error)
+                }
+                try {
+                    fs.mkdirSync(path.resolve('src', key, 'control', 'view'));
                 } catch (error) {
                     // console.log(error)
                 }
                 let views = json[key].views;
                 for (const viewsKey in views) {
                     if (views.hasOwnProperty(viewsKey)) {
-                        try {
-                            fs.mkdirSync(path.resolve('src', key, 'view', viewsKey));
-                        } catch (error) {
-                            // console.log(error)
-                        }
-                        fs.writeFileSync(path.resolve('src', key, 'view', viewsKey, 'control.jsx'), controlStr.replace(/{{Key}}/g, viewsKey));
+                        fs.writeFileSync(path.resolve('src', key, 'control', 'view', `${viewsKey}.jsx`), controlStr.replace(/{{Key}}/g, viewsKey).replace(/{{type}}/g, 'view'));
                     }
                 }
             }
@@ -276,7 +398,7 @@ class NewFile {
                             jsonpropTypesstr = jsonpropTypesstr.replace(/{{type}}/g, viewstate[index].type);
                             viewpropTypesJSON += `${jsonpropTypesstr}` + '\n';
                         }
-                        let viewFile = viewstr.replace(/{{imports}}/g, viewImportsStr).replace(/{{name}}/g, viewsKey);
+                        let viewFile = viewstr.replace(/{{imports}}/g, viewImportsStr).replace(/{{name}}/g, viewsKey).replace(/{{type}}/g, 'view');
                         viewFile = viewFile.replace(/{{json}}/g, viewpropTypesJSON);
                         if (viewfunc.length == 0 && viewstate.length == 0) {
                             viewFile = viewFile.replace(/import PropTypes/g, '// import PropTypes');
@@ -363,26 +485,69 @@ class NewFile {
         for (const key in json) {
             if (json.hasOwnProperty(key)) {
                 try {
-                    fs.mkdirSync(path.resolve('src', key));
+                    fs.mkdirSync(path.resolve('src', key, 'control'));
                 } catch (error) {
                     // console.log(error)
                 }
                 try {
-                    fs.mkdirSync(path.resolve('src', key, 'components'));
+                    fs.mkdirSync(path.resolve('src', key, 'control', 'components'));
                 } catch (error) {
                     // console.log(error)
                 }
                 let components = json[key].components;
                 for (const componentsKey in components) {
                     if (components.hasOwnProperty(componentsKey)) {
+                        fs.writeFileSync(path.resolve('src', key, 'control', 'components', `${componentsKey}.jsx`), controlStr.replace(/{{Key}}/g, componentsKey).replace(/{{type}}/g, 'components'));
+                    }
+                }
+            }
+        }
+    }
+    createModel(json) {
+        for (const key in json) {
+            if (json.hasOwnProperty(key)) {
+                try {
+                    fs.mkdirSync(path.resolve('src', key));
+                } catch (error) {
+                    // console.log(error)
+                }
+                try {
+                    fs.mkdirSync(path.resolve('src', key, 'model'));
+                } catch (error) {
+                    // console.log(error)
+                }
+                fs.writeFileSync(path.resolve('src', key, 'model', `model.jsx`), modelstr);
+            }
+        }
+    }
+    createIndex(json) {
+        for (const key in json) {
+            if (json.hasOwnProperty(key)) {
+                try {
+                    fs.mkdirSync(path.resolve('src', key));
+                } catch (error) {
+                    // console.log(error)
+                }
+                try {
+                    fs.mkdirSync(path.resolve('src', key, 'index'));
+                } catch (error) {
+                    // console.log(error)
+                }
+                let views = json[key].views;
+                let imports = '';
+                let routers = '';
+                for (const viewsKey in views) {
+                    if (views.hasOwnProperty(viewsKey)) {
                         try {
-                            fs.mkdirSync(path.resolve('src', key, 'components', componentsKey));
+                            fs.mkdirSync(path.resolve('src', key, 'view', viewsKey));
                         } catch (error) {
                             // console.log(error)
                         }
-                        fs.writeFileSync(path.resolve('src', key, 'components', componentsKey, 'control.jsx'), controlStr.replace(/{{Key}}/g, componentsKey));
+                        imports += entryImports.replace(/{{componentsKey}}/g, viewsKey).replace(/{{key}}/g, key);
+                        routers += entryRouterStr.replace(/{{router}}/g, viewsKey);
                     }
                 }
+                fs.writeFileSync(path.resolve('src', key, 'index', `Index.jsx`), entryIndexStr.replace(/{{imports}}/g, imports).replace(/{{routers}}/g, routers).replace(/{{HeightKey}}/g, `${key.slice(0, 1).toUpperCase()}${key.slice(1)}`));
             }
         }
     }
@@ -677,7 +842,7 @@ class NewFile {
                         }
                         //每个模块的jsx
 
-                        let componentFile = Bablestr.replace(/{{Key}}/g, componentsKey);
+                        let componentFile = Bablestr.replace(/{{Key}}/g, componentsKey).replace(/{{type}}/g, 'components');
                         componentFile = componentFile.replace(/{{json}}/g, componentJSON);
                         if (stateArrLenght == 0 && funcArrLenght == 0) {
                             componentFile = componentFile.replace(/import PropTypes/g, '// import PropTypes');

@@ -239,7 +239,7 @@ if (!cmd) {
                     new inquirer.Separator(),
                     'create HTML',
                     new inquirer.Separator(),
-                    'create HTML.Components according to redux-data',
+                    'create HTML\'s Cmpt and HTML\'s View according to redux-data',
                     'create View according to redux-data',
                     'create Component according to redux-data',
                     new inquirer.Separator(),
@@ -276,7 +276,7 @@ if (!cmd) {
                     });
                 },
                 when: (answers) => {
-                    return answers.type == 'create HTML.Components according to redux-data' || answers.type == 'create View according to redux-data' || answers.type == 'create Component according to redux-data';
+                    return answers.type == 'create HTML\'s Cmpt and HTML\'s View according to redux-data' || answers.type == 'create View according to redux-data' || answers.type == 'create Component according to redux-data';
                 }
             },
             {
@@ -327,7 +327,7 @@ if (!cmd) {
                 when: (answers) => {
                     return (answers.type == 'create Component according to redux-data' && answers.HTML && answers.component) ||
                         (answers.type == 'create View according to redux-data' && answers.HTML && answers.view) ||
-                        (answers.type == 'create HTML.Components according to redux-data' && answers.HTML) ||
+                        (answers.type == 'create HTML\'s Cmpt and HTML\'s View according to redux-data' && answers.HTML) ||
                         (answers.type == 'create HTML' && answers.HTML_name) ||
                         (answers.type == 'create all according to redux-data');
 
@@ -335,6 +335,7 @@ if (!cmd) {
             },
         ])
         .then(answers => {
+            console.log(answers);
             switch (answers.type) {
                 case 'build':
                     {
@@ -397,18 +398,21 @@ if (!cmd) {
 
                         const newFile = new NewFile();
                         newFile.createHtml(answers.HTML_name);
-                        console.log('\x1B[36m%s\x1B[0m', 'Success, update redux-data and choices \'create HTML.Components according to redux-data\'');
+                        console.log('\x1B[36m%s\x1B[0m', 'Success, update redux-data and choices \'create HTML\'s Cmpt and HTML\'s View according to redux-data\'');
                         break;
                     }
-                case 'create HTML.Components according to redux-data':
+                case 'create HTML\'s Cmpt and HTML\'s View according to redux-data':
                     {
                         if (!answers.confirm) {
                             return;
                         }
+                        console.log('js');
                         const NewFile = require(path.resolve(__dirname, 'new-react-redux.js'));
                         const newFile = new NewFile();
                         const HTMLJSON = require(path.resolve('redux-data', 'config', `${answers.HTML}.js`));
-
+                        
+                        newFile.createIndex(HTMLJSON);
+                        newFile.createModel(HTMLJSON);
                         newFile.createStoreState(HTMLJSON);
                         newFile.createStoreStore(HTMLJSON);
                         newFile.createStoreReducer(HTMLJSON);
@@ -417,6 +421,7 @@ if (!cmd) {
                         newFile.buildComponentsProgram(HTMLJSON);
                         newFile.buildviewProgram(HTMLJSON);
 
+                        newFile.buildIndexRedux(HTMLJSON);
                         newFile.buildComponentsControl(HTMLJSON);
                         newFile.buildViewsControl(HTMLJSON);
                         newFile.buildComponentsProgram_cmpt(HTMLJSON);
