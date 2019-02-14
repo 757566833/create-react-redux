@@ -441,6 +441,7 @@ if (!cmd) {
                         json[answers.HTML] = {};
                         json[answers.HTML].views = {};
                         json[answers.HTML].views[answers.view] = ViewJSON;
+                        json[answers.HTML].components={}
 
                         const ComponentsJSON = HTMLJSON[answers.HTML].components;
 
