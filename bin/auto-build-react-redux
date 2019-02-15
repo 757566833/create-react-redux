@@ -93,11 +93,6 @@ if (cmd == 'init') {
     } catch (error) {
         // console.log(error)
     }
-    try {
-        fs.mkdirSync(path.resolve('public', 'fileConfig'));
-    } catch (error) {
-        // console.log(error)
-    }
     //服务器文件
     const server = fs.readFileSync(path.resolve(__dirname, 'babel', 'server.crr'), 'utf8');
     fs.writeFileSync(path.resolve('server.js'), server);

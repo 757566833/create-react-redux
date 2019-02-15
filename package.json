@@ -1,12 +1,10 @@
 {
   "name": "auto-build-react-redux",
-  "version": "0.0.1",
-  "description": "npm run create-Redux-A",
+  "version": "0.0.2",
+  "description": "auto build react & redux",
   "main": "create-react-redux.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "webpack --mode development",
-    "build": "webpack --mode production"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "dazan <757566833@qq.com>",
   "license": "MIT",
@@ -18,5 +16,16 @@
   "bugs": {
     "url": "https://github.com/757566833/auto-build-react-redux/issues"
   },
-  "homepage": "https://github.com/757566833/auto-build-react-redux#readme"
+  "homepage": "https://github.com/757566833/auto-build-react-redux#readme",
+  "keywords": [
+    "react",
+    "redux",
+    "react-redux",
+    "webpack",
+    "mvc",
+    "auto"
+  ],
+  "engines": {
+    "node": "^8.0.0"
+  }
 }
