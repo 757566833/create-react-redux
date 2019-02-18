@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Route, Switch, withRouter } from 'react-router-dom';
 import store from '../redux/store.jsx';
 import { Provider, connect } from 'react-redux';
 import mapStateToProps from './mapStateToProps.jsx';
@@ -47,7 +47,7 @@ class AppRouter extends React.Component {
             'zh_cn': zh_CN,
             'en_us': en_US,
         };
-        const language_type =this.props.language_type;
+        const language_type = this.props.language_type;
         return (
             <LocaleProvider locale={languageJson[language_type]}>
                 <Switch>
@@ -61,10 +61,12 @@ class AppRouter extends React.Component {
         );
     }
 }
-const AppRedux = connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(AppRouter);
+const AppRedux = withRouter(
+    connect(
+        mapStateToProps,
+        mapDispatchToProps
+    )(AppRouter)
+);
 const App = () => <Provider store={store}>
     <BrowserRouter basename={indexRouter}>
         <AppRedux />

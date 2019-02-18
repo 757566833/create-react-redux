@@ -1,10 +1,11 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom';
 // import Control from '../../control/view/SearchView';
 import SearchHeader from '../../components/SearchHeader/SearchHeader.jsx';
 import ArticleList from '../../components/ArticleList/ArticleList.jsx';
 
 export let SearchViewRef;
-export default class SearchView extends React.Component{
+class SearchView extends React.Component{
     constructor(props){
         super(props);
         SearchViewRef = this;
@@ -28,3 +29,4 @@ export default class SearchView extends React.Component{
         );
     }
 }
+export default withRouter(SearchView);

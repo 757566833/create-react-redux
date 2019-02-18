@@ -1,6 +1,10 @@
 // const {} = require('../data/{{key}}/{{key}}');
 module.exports = {
     '{{key}}': {
+        'index': {
+            'state': [],
+            'func': []
+        },
         'components': {
             'Component': {
                 'state': [],

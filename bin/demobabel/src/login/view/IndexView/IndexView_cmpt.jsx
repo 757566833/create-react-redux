@@ -1,11 +1,12 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom';
 // import Control from '../../control/view/IndexView';
 // import Header from '../../components/Header/Header.jsx';
 // import Content from '../../components/Content/Content.jsx';
 // import Footer from '../../components/Footer/Footer.jsx';
 
 export let IndexViewRef;
-export default class IndexView extends React.Component{
+class IndexView extends React.Component{
     constructor(props){
         super(props);
         IndexViewRef = this;
@@ -28,3 +29,4 @@ export default class IndexView extends React.Component{
         );
     }
 }
+export default withRouter(IndexView);

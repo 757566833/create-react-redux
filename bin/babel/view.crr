@@ -1,8 +1,9 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom';
 // import Control from '../../control/{{type}}/{{name}}';
 {{imports}}
 export let {{name}}Ref;
-export default class {{name}} extends React.Component{
+class {{name}} extends React.Component{
     constructor(props){
         super(props);
         {{name}}Ref = this;
@@ -25,3 +26,4 @@ export default class {{name}} extends React.Component{
         );
     }
 }
+export default withRouter({{name}});

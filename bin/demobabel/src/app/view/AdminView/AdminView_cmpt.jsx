@@ -1,10 +1,11 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom';
 // import Control from '../../control/view/AdminView';
 import ArticleList from '../../components/ArticleList/ArticleList.jsx';
 
 export let AdminViewRef;
-export default class AdminView extends React.Component{
-    constructor(props){
+class AdminView extends React.Component {
+    constructor(props) {
         super(props);
         AdminViewRef = this;
         this.isMount = true;
@@ -18,11 +19,12 @@ export default class AdminView extends React.Component{
     networkError = (code) => {
         alert(`网络错误${code}`);
     }
-    render(){
-        return(
+    render() {
+        return (
             <div>
-                <ArticleList/>
+                <ArticleList />
             </div>
         );
     }
 }
+export default withRouter(AdminView);
