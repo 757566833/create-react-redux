@@ -1,6 +1,6 @@
 {
   "name": "auto-build-react-redux",
-  "version": "0.0.3",
+  "version": "0.0.6",
   "description": "auto build react & redux",
   "main": "create-react-redux.js",
   "scripts": {

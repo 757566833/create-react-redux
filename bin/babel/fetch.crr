@@ -4,7 +4,7 @@ const getFetch = (url, parameter) => {
     if (parameter) {
         for (const key in parameter) {
             if (parameter.hasOwnProperty(key)) {
-                parameterStr += (key + '=' + parameter[key] + '&');
+                parameterStr += `${key}=${parameter[key]}&`;
             }
         }
     }
