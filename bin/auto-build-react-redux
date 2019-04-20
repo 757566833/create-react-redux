@@ -223,7 +223,8 @@ if (cmd == 'init') {
 }else if(cmd == 'chart'){
     let pathUrl = execSync('chdir').toString()
     let echartserver = `node ${path.resolve(__dirname, 'chart.js')} ${pathUrl}`
-    execSync(echartserver)
+    execSync(echartserver);
+    console.log('\x1B[33m%s\x1b[0m:', 'localhost:7654');
     return
 }
 
