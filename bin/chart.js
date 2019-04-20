@@ -10,7 +10,7 @@ const bodyparser = require('koa-bodyparser');
 // redis相关
 // const redis = require('redis');
 // const client = redis.createClient(6379, 'localhost')
-
+const pathUrl = process.argv[2];
 
 // 设定路由
 const router = new Router();
@@ -41,9 +41,7 @@ router.get('/getdata', async (ctx) => {
     let {
         name
     } = ctx.request.query;
-    console.log(name)
-    const data = require(`./redux-data/config/${name}`);
-    console.log(name)
+    const data = require(path.join(pathUrl,'redux-data','config',name));
     // let indexindex = arr.findIndex((n) => n == 'index.js')
     // arr.splice(indexindex, 1)
     ctx.body={

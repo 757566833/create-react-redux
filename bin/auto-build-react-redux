@@ -221,8 +221,10 @@ if (cmd == 'init') {
     console.warn('\x1B[36m%s\x1B[0m', 'auto-build-react-redux init --demo');
     return;
 }else if(cmd == 'chart'){
-    let echartserver = `node ${path.resolve(__dirname, 'chart.js')}`
+    let pathUrl = execSync('chdir').toString()
+    let echartserver = `node ${path.resolve(__dirname, 'chart.js')} ${pathUrl}`
     execSync(echartserver)
+    return
 }
 
 
