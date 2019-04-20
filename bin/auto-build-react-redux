@@ -220,6 +220,9 @@ if (cmd == 'init') {
     console.warn('\x1B[33m%s\x1B[0m', 'If you use it for the first time, you may need to open a new project and run');
     console.warn('\x1B[36m%s\x1B[0m', 'auto-build-react-redux init --demo');
     return;
+}else if(cmd == 'chart'){
+    let echartserver = `node ${path.resolve(__dirname, 'chart.js')}`
+    execSync(echartserver)
 }
 
 

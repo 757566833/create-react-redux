@@ -1,6 +1,6 @@
 {
   "name": "auto-build-react-redux",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "auto build react & redux",
   "main": "create-react-redux.js",
   "scripts": {
@@ -10,7 +10,13 @@
   "license": "MIT",
   "bin": "./bin/auto-build-react-redux",
   "dependencies": {
-    "inquirer": "^6.2.1"
+    "ejs": "^2.6.1",
+    "inquirer": "^6.2.1",
+    "koa": "^2.7.0",
+    "koa-bodyparser": "^4.2.1",
+    "koa-router": "^7.4.0",
+    "koa-static": "^5.0.0",
+    "koa-views": "^6.2.0"
   },
   "repository": "git+https://github.com/757566833/auto-build-react-redux.git",
   "bugs": {
@@ -26,6 +32,6 @@
     "auto"
   ],
   "engines": {
-    "node": "^8.0.0"
+    "node": "^10.15.3"
   }
 }
