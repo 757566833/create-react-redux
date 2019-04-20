@@ -41,8 +41,9 @@ router.get('/getdata', async (ctx) => {
     let {
         name
     } = ctx.request.query;
-    // console.log(name)
+    console.log(name)
     const data = require(`./redux-data/config/${name}`);
+    console.log(name)
     // let indexindex = arr.findIndex((n) => n == 'index.js')
     // arr.splice(indexindex, 1)
     ctx.body={
